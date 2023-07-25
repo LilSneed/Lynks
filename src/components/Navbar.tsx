@@ -19,7 +19,7 @@ export default function Navbar() {
           </h2>
           <nav className="flex items-center text-sm font-medium">
             <Button asChild variant="link" className="sm:inline-block hidden">
-              <Link href="/login">Examples</Link>
+              <Link href="/dashboard">Examples</Link>
             </Button>
             <Button asChild variant="link" className="sm:inline-block hidden">
               <Link href="/login">About</Link>
@@ -29,7 +29,7 @@ export default function Navbar() {
         <div className="flex flex-row justify-between gap-5 items-center">
           <SignedIn>
             <Button variant="outline" asChild className="bg-teal-600">
-              <Link href="/">Dashboard</Link>
+              <Link href="/dashboard">Dashboard</Link>
             </Button>
           </SignedIn>
           <UserButton />
@@ -39,7 +39,7 @@ export default function Navbar() {
             </Button>
 
             <Button variant="outline" asChild className="bg-teal-600">
-              <Link href="/">Sign Up</Link>
+              <Link href="/sign-up">Sign Up</Link>
             </Button>
           </SignedOut>
         </div>
