@@ -22,16 +22,16 @@ export default async function page() {
         authId: userAuthId,
       },
       include: {
-        lynks: true,
+        clusters: true,
       },
     });
 
-  const userLynks = checkDbId?.lynks;
+  const userLynks = checkDbId?.clusters;
   console.log(userLynks);
   return (
     <section className="mt-20 flex flex-col justify-center text-center container">
       <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-        My Lynks
+        My Clusters
       </h2>
       {userLynks?.map((lynk) => (
         <div className="" key={lynk.id}>
@@ -45,7 +45,7 @@ export default async function page() {
         </div>
       ))}
       <div className="mt-5">
-        <p className="my-5">Create a new Lynk!</p>
+        <p className="my-5">Create a new Cluster</p>
         <InputForm />
       </div>
     </section>

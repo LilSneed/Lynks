@@ -16,14 +16,25 @@ model User {
   email String @unique
   name String
   authId String @unique
-  lynks Lynk[]
+  clusters Cluster[]
 }
 
-model Lynk {
+model Cluster {
   id Int @id @default(autoincrement())
   creator User? @relation(fields: [creatorId], references: [id])
   creatorId Int
   image String
   url String
+  title String
+  lynks Lynk[]
   @@index([creatorId])
+}
+
+model Lynk {
+  id Int @id @default(autoincrement())
+  image String
+  url String
+  cluster Cluster @relation(fields: [clusterId], references: [id])
+  clusterId Int
+  @@index([clusterId])
 }

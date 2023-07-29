@@ -44,13 +44,11 @@ export default function InputForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>URL</FormLabel>
               <FormControl>
                 <Input placeholder="Lynk" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
+              <FormDescription>This will be your cluster URL.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
