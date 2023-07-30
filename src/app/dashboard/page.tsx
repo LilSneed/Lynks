@@ -44,10 +44,6 @@ export default async function page() {
           />
         </div>
       ))}
-      <div className="mt-5">
-        <p className="my-5">Create a new Cluster</p>
-        <InputForm />
-      </div>
     </section>
   );
 }
