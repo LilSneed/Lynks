@@ -26,6 +26,7 @@ model Cluster {
   image String
   url String
   title String
+  description String @default(dbgenerated("'Cluster Description'"))
   lynks Lynk[]
   @@index([creatorId])
 }
