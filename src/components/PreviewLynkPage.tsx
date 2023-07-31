@@ -1,9 +1,10 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Lynk from "./Lynk";
-import RelatedMenu from "./RelatedMenu";
 
-export default function LynkPage({
+export default function PreviewLynkPage({
   lynks,
   clusterData,
   key,
@@ -12,34 +13,16 @@ export default function LynkPage({
   clusterData: Array<any>;
   key: number;
 }) {
-  const PhRelated = [
-    {
-      id: 1,
-      creatorId: 1,
-      image: "clusterImage",
-      url: "clusterUrl",
-      title: "PH Cluster",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus et arcu vel leo dictum laoreet sed vulputate nulla. Nullam vitae congue nisi. Donec ultrices orci in pharetra dictum placerat.",
-    },
-    {
-      id: 2,
-      creatorId: 1,
-      image: "clusterImage",
-      url: "clusterUrl",
-      title: "PH Cluster2",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus et arcu vel leo dictum laoreet sed vulputate nulla. Nullam vitae congue nisi. Donec ultrices orci in pharetra dictum placerat.",
-    },
-  ];
-
+  const handleFocus = (event: any) => {
+    event.target.blur();
+  };
   return (
-    <div className="container flex flex-col mt-10 mb-5" key={key}>
+    <div
+      className="container flex flex-col mt-10 mb-5"
+      key={key}
+      onFocus={handleFocus}
+    >
       <div className="flex justify-center flex-col">
-        <div className="self-start ">
-          <RelatedMenu relatedClusters={PhRelated} />
-        </div>
-
         <Image
           src={"https://placehold.co/600x600/pngplaceholder.com/600x600.png"}
           alt="User Image"

@@ -14,9 +14,11 @@ export default function Navbar() {
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
       <div className="container flex h-14 items-center justify-between">
         <div className="text-center flex flex-row justify-between gap-5">
-          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-            Lynks
-          </h2>
+          <Link href={"/"}>
+            <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+              Lynks
+            </h2>
+          </Link>
           <nav className="flex items-center text-sm font-medium">
             <Button asChild variant="link" className="sm:inline-block hidden">
               <Link href="/dashboard">Examples</Link>
