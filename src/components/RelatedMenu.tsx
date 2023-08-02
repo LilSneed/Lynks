@@ -24,7 +24,9 @@ export default function RelatedMenu({
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Related Clusters</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="border border-zinc-500">
+            Related Clusters
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
               {relatedClusters.map((cluster) => (

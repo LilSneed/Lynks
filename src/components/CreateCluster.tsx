@@ -44,11 +44,14 @@ export default function InputForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>URL</FormLabel>
+              <FormLabel>Create Cluster</FormLabel>
               <FormControl>
-                <Input placeholder="Lynk" {...field} />
+                <Input placeholder="/...." {...field} />
               </FormControl>
-              <FormDescription>This will be your cluster URL.</FormDescription>
+              <FormDescription>
+                This will be your cluster URL. <br />{" "}
+                {`(Max 3 Clusters per User)`}
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
