@@ -20,6 +20,13 @@ export default function Cluster({
       className="mt-5 rounded-full mx-5 flex-col flex-wrap sm:flex-row"
       key={id}
     >
+      <div className="flex justify-center items-center ">
+        <Link href={`/edit/${url}`}>
+          <Button variant="ghost" className="bg-secondary">
+            Edit
+          </Button>
+        </Link>
+      </div>
       <Image
         width={300}
         height={300}
@@ -27,7 +34,7 @@ export default function Cluster({
         alt="Cluster Picture"
         className="rounded-full"
       />
-      <p>{title}</p>
+      <p className="self-center grow">{title}</p>
     </div>
   );
 }
