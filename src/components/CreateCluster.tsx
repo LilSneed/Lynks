@@ -1,63 +1,56 @@
 "use client";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
+import { Label } from "@/components/ui/label";
+import { Button } from "./ui/button";
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
+export default function CreateCluster({
+  userId,
+  authId,
+}: {
+  userId: number;
+  authId: string;
+}) {
+  const [clusterUrl, setClusterUrl] = React.useState("");
 
-export default function InputForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-    },
-  });
+  const clusterData = {
+    creatorId: userId,
+    authId: authId,
+    image: "clusterImage",
+    url: clusterUrl,
+    title: "My Cluster",
+    description: "Cluster Description...",
+  };
+  const handleClusterUrlChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setClusterUrl(event.target.value);
+  };
 
-  function onSubmit() {}
+  const handleSubmit = async () => {
+    await fetch("http://localhost:3000/api/createCluster", {
+      method: "POST",
+      body: JSON.stringify(clusterData),
+    });
+  };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-2/3 space-y-6 mx-auto"
-      >
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Create Cluster</FormLabel>
-              <FormControl>
-                <Input placeholder="/...." {...field} />
-              </FormControl>
-              <FormDescription>
-                This will be your cluster URL. <br />{" "}
-                {`(Max 3 Clusters per User)`}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Create</Button>
-      </form>
-    </Form>
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="email" className="self-center">
+        Create Cluster
+      </Label>
+      <Input
+        type="url"
+        placeholder="Cluster Url"
+        value={clusterUrl}
+        onChange={handleClusterUrlChange}
+      />
+      <Button variant="secondary" onClick={handleSubmit}>
+        Create
+      </Button>
+      <p className="text-sm text-muted-foreground">
+        This will be your Cluster URL, you will be able to edit it afterwards.
+      </p>
+    </div>
   );
 }

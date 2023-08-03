@@ -1,17 +1,9 @@
 import { auth, currentUser } from "@clerk/nextjs";
 import React from "react";
 import { prisma } from "../db";
-
-import dynamic from "next/dynamic";
-import Lynk from "@/components/Lynk";
-
 import CreateCluster from "@/components/CreateCluster";
 import { Separator } from "@/components/ui/separator";
 import Cluster from "@/components/Cluster";
-
-const InputForm = dynamic(() => import("../../components/CreateLynk"), {
-  ssr: false,
-});
 
 export default async function page() {
   const { userId: userAuthId } = await auth();
@@ -33,7 +25,7 @@ export default async function page() {
         clusters: true,
       },
     });
-
+  console.log(checkDbId);
   if (checkDbId === null) {
     await fetch("http://localhost:3000/api/createUser", {
       method: "POST",
@@ -77,8 +69,10 @@ export default async function page() {
         </div>
       ))}
       <Separator />
-      <div className="">
-        <CreateCluster />
+      <div className="flex justify-center">
+        {checkDbId && userAuthId && (
+          <CreateCluster userId={checkDbId.id} authId={userAuthId} />
+        )}
       </div>
     </section>
   );
