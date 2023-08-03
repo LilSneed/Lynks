@@ -26,44 +26,54 @@ export default async function page({
   })) as ClusterData;
 
   const lynks = clusterData.lynks;
-  console.log(clusterData);
-  return (
-    <section className="flex lg:flex-row flex-col mt-10 mb-20 sm:container gap-5 min-h-screen">
-      <div
-        className="grow border border-white flex-1 -order-1 pointer-events-none rounded-xl text-center select-none"
-        tabIndex={-1}
-      >
-        <p className="self-center scroll-m-20 text-base font-semibold tracking-tight mt-5">
-          Cluster Preview
-        </p>
-        <Separator />
-        <PreviewLynkPage lynks={lynks} clusterData={clusterData} key={1} />
-      </div>
-      <div className="grow flex-1 order-first lg:order-none flex flex-col">
-        <p className="text-center scroll-m-20 text-xl font-semibold tracking-tight my-5">
-          Edit Lynks
-        </p>
-        <div className="flex justify-center">
-          <CreateLynk />
-        </div>
-        <Separator />
-        <div className="grow flex justify-center items-center flex-col">
-          <p className="text-center scroll-m-20 text-xl font-semibold tracking-tight mb-10">
-            Edit Cluster
+
+  if (clusterData.authId === userAuthId) {
+    return (
+      <section className="flex lg:flex-row flex-col mt-10 mb-20 sm:container gap-5 min-h-screen">
+        <div
+          className="grow border border-white flex-1 -order-1 pointer-events-none rounded-xl text-center select-none"
+          tabIndex={-1}
+        >
+          <p className="self-center scroll-m-20 text-base font-semibold tracking-tight mt-5">
+            Cluster Preview
           </p>
-          <ChangeName namePh={clusterData.title} />
+          <Separator />
+          <PreviewLynkPage lynks={lynks} clusterData={clusterData} key={1} />
         </div>
-        <div className="grow flex justify-center">
-          <ImageInput />
+        <div className="grow flex-1 order-first lg:order-none flex flex-col">
+          <p className="text-center scroll-m-20 text-xl font-semibold tracking-tight my-5">
+            Edit Lynks
+          </p>
+          <div className="flex justify-center">
+            <CreateLynk />
+          </div>
+          <Separator />
+          <div className="grow flex justify-center items-center flex-col">
+            <p className="text-center scroll-m-20 text-xl font-semibold tracking-tight mb-10">
+              Edit Cluster
+            </p>
+            <ChangeName namePh={clusterData.title} />
+          </div>
+          <div className="grow flex justify-center">
+            <ImageInput />
+          </div>
+          <div className="mt-10 mx-2">
+            <DescEdit />
+          </div>
+          <Separator className="hidden lg:inline-block" />
+          <div className="my-5 self-center">
+            <DeleteButton />
+          </div>
         </div>
-        <div className="mt-10 mx-2">
-          <DescEdit />
+      </section>
+    );
+  } else {
+    return (
+      <section className="flex lg:flex-row flex-col mt-10 mb-20 sm:container gap-5 min-h-screen">
+        <div className="text-white my-20">
+          <h1>You are not authorized to edit this Cluster</h1>
         </div>
-        <Separator className="hidden lg:inline-block" />
-        <div className="my-5 self-center">
-          <DeleteButton />
-        </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
+  }
 }

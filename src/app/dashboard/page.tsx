@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 import React from "react";
 import { prisma } from "../db";
 
@@ -15,8 +15,13 @@ const InputForm = dynamic(() => import("../../components/CreateLynk"), {
 
 export default async function page() {
   const { userId: userAuthId } = await auth();
+  const user = await currentUser();
 
-  console.log(userAuthId);
+  const userData = {
+    authId: userAuthId,
+    email: user?.emailAddresses[0].emailAddress,
+    name: user?.firstName,
+  };
 
   let checkDbId;
   if (userAuthId)
@@ -29,8 +34,15 @@ export default async function page() {
       },
     });
 
+  if (checkDbId === null) {
+    await fetch("http://localhost:3000/api/createUser", {
+      method: "POST",
+      body: JSON.stringify(userData),
+    });
+  }
+
   const userClusters = checkDbId?.clusters;
-  console.log(checkDbId);
+
   return (
     <section className="mt-20 flex flex-col justify-center text-center container">
       <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
