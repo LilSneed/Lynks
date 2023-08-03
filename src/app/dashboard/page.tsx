@@ -29,38 +29,38 @@ export default async function page() {
       },
     });
 
-  const userLynks = checkDbId?.clusters;
-  console.log(userLynks);
+  const userClusters = checkDbId?.clusters;
+  console.log(checkDbId);
   return (
     <section className="mt-20 flex flex-col justify-center text-center container">
       <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
         My Clusters
       </h2>
-      {userLynks?.map((lynk) => (
+      {userClusters?.map((cluster) => (
         <div
           className="flex md:flex-row flex-col items-center justify-center"
-          key={lynk.id}
+          key={cluster.id}
         >
           <Cluster
-            id={lynk.id}
+            id={cluster.id}
             img={"https://placehold.co/600x400/pngplaceholder.com/600x400.png"}
-            url={lynk.url}
-            key={lynk.id}
-            title={lynk.title}
+            url={cluster.url}
+            key={cluster.id}
+            title={cluster.title}
           />
           <Cluster
-            id={lynk.id}
+            id={cluster.id}
             img={"https://placehold.co/600x400/pngplaceholder.com/600x400.png"}
-            url={lynk.url}
-            key={lynk.id}
-            title={lynk.title}
+            url={cluster.url}
+            key={cluster.id}
+            title={cluster.title}
           />
           <Cluster
-            id={lynk.id}
+            id={cluster.id}
             img={"https://placehold.co/600x400/pngplaceholder.com/600x400.png"}
-            url={lynk.url}
-            key={lynk.id}
-            title={lynk.title}
+            url={cluster.url}
+            key={cluster.id}
+            title={cluster.title}
           />
         </div>
       ))}

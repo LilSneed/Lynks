@@ -6,6 +6,7 @@ import DescEdit from "@/components/DescEdit";
 import { ImageInput } from "@/components/ImageInput";
 import PreviewLynkPage from "@/components/PreviewLynkPage";
 import { Separator } from "@/components/ui/separator";
+import { auth } from "@clerk/nextjs";
 import React from "react";
 
 export default async function page({
@@ -13,17 +14,19 @@ export default async function page({
 }: {
   params: { lynkEdit: string };
 }) {
-  const clusterData = await prisma.cluster.findMany({
+  const { userId: userAuthId } = await auth();
+
+  const clusterData = (await prisma.cluster.findFirst({
     where: {
       url: params.lynkEdit,
     },
     include: {
       lynks: true,
     },
-  });
+  })) as ClusterData;
 
-  const lynks = clusterData[0].lynks;
-  console.log(lynks);
+  const lynks = clusterData.lynks;
+  console.log(clusterData);
   return (
     <section className="flex lg:flex-row flex-col mt-10 mb-20 sm:container gap-5 min-h-screen">
       <div
@@ -48,7 +51,7 @@ export default async function page({
           <p className="text-center scroll-m-20 text-xl font-semibold tracking-tight mb-10">
             Edit Cluster
           </p>
-          <ChangeName namePh={clusterData[0].title} />
+          <ChangeName namePh={clusterData.title} />
         </div>
         <div className="grow flex justify-center">
           <ImageInput />

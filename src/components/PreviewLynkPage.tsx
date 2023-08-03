@@ -10,7 +10,7 @@ export default function PreviewLynkPage({
   key,
 }: {
   lynks: Array<any>;
-  clusterData: Array<any>;
+  clusterData: Object;
   key: number;
 }) {
   const handleFocus = (event: any) => {
@@ -32,10 +32,10 @@ export default function PreviewLynkPage({
         />
       </div>
       <h2 className="self-center mt-2 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
-        {clusterData[0].title}
+        {clusterData.title}
       </h2>
       <p className="self-center leading-7 [&:not(:first-child)]:mt-6">
-        {clusterData[0].description}
+        {clusterData.description}
       </p>
       {lynks.map((lynk) => (
         <Lynk
