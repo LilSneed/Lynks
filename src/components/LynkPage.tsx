@@ -61,6 +61,8 @@ export default function LynkPage({
           edit={false}
           img={"https://placehold.co/600x600/pngplaceholder.com/600x600.png"}
           url={lynk.url}
+          title={lynk.title}
+          color={lynk.color}
         />
       ))}
     </div>

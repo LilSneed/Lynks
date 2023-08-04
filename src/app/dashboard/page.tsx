@@ -34,7 +34,7 @@ export default async function page() {
   }
 
   const userClusters = checkDbId?.clusters;
-
+  console.log(userClusters, "clusters");
   return (
     <section className="mt-20 flex flex-col justify-center text-center container">
       <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
@@ -45,20 +45,6 @@ export default async function page() {
           className="flex md:flex-row flex-col items-center justify-center"
           key={cluster.id}
         >
-          <Cluster
-            id={cluster.id}
-            img={"https://placehold.co/600x400/pngplaceholder.com/600x400.png"}
-            url={cluster.url}
-            key={cluster.id}
-            title={cluster.title}
-          />
-          <Cluster
-            id={cluster.id}
-            img={"https://placehold.co/600x400/pngplaceholder.com/600x400.png"}
-            url={cluster.url}
-            key={cluster.id}
-            title={cluster.title}
-          />
           <Cluster
             id={cluster.id}
             img={"https://placehold.co/600x400/pngplaceholder.com/600x400.png"}

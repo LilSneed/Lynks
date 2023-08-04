@@ -25,7 +25,7 @@ model Cluster {
   creatorId Int
   authId String 
   image String
-  url String
+  url String @unique
   title String
   description String @default(dbgenerated("'Cluster Description'"))
   lynks Lynk[]
@@ -36,6 +36,9 @@ model Lynk {
   id Int @id @default(autoincrement())
   image String
   url String
+  title String
+  color String
+  authId String
   cluster Cluster @relation(fields: [clusterId], references: [id])
   clusterId Int
   @@index([clusterId])

@@ -9,12 +9,17 @@ export default function Lynk({
   url,
   id,
   edit,
+  title,
+  color,
 }: {
   id: number;
   img: string;
   url: string;
   edit: boolean;
+  title: string;
+  color: string;
 }) {
+  console.log(url, "url");
   return (
     <div className="mt-5">
       {edit && (
@@ -26,7 +31,7 @@ export default function Lynk({
           </Link>
         </div>
       )}
-      <Link href={`/${url}`} key={id}>
+      <a href={`https://${url}`} key={id}>
         <div className="bg-red-50 flex flex-row rounded-full">
           <Image
             src={img}
@@ -36,10 +41,10 @@ export default function Lynk({
             className="rounded-full"
           />
           <h2 className="text-black text-center grow self-center scroll-m-20 text-2xl font-semibold tracking-tight pr-16">
-            {url}
+            {title}
           </h2>
         </div>
-      </Link>
+      </a>
     </div>
   );
 }

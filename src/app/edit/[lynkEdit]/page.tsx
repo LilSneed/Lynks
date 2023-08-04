@@ -7,6 +7,7 @@ import { ImageInput } from "@/components/ImageInput";
 import PreviewLynkPage from "@/components/PreviewLynkPage";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@clerk/nextjs";
+import cluster from "cluster";
 import React from "react";
 
 export default async function page({
@@ -26,7 +27,7 @@ export default async function page({
   })) as ClusterData;
 
   const lynks = clusterData.lynks;
-
+  console.log(clusterData);
   if (clusterData.authId === userAuthId) {
     return (
       <section className="flex lg:flex-row flex-col mt-10 mb-20 sm:container gap-5 min-h-screen">
@@ -45,7 +46,10 @@ export default async function page({
             Edit Lynks
           </p>
           <div className="flex justify-center">
-            <CreateLynk />
+            <CreateLynk
+              clusterId={clusterData.id}
+              authId={clusterData.authId}
+            />
           </div>
           <Separator />
           <div className="grow flex justify-center items-center flex-col">
