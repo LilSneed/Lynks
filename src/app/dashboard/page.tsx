@@ -50,7 +50,7 @@ export default async function page() {
             img={"https://placehold.co/600x400/pngplaceholder.com/600x400.png"}
             url={cluster.url}
             key={cluster.id}
-            title={cluster.title}
+            title={cluster.url}
           />
         </div>
       ))}

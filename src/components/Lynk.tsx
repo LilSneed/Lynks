@@ -32,7 +32,10 @@ export default function Lynk({
         </div>
       )}
       <a href={`https://${url}`} key={id}>
-        <div className="bg-red-50 flex flex-row rounded-full">
+        <div
+          style={{ backgroundColor: color }}
+          className="flex flex-row rounded-full"
+        >
           <Image
             src={img}
             height={70}
