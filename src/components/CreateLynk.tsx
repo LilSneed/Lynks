@@ -130,9 +130,15 @@ export default function CreateLynk({
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="#fa8072" id="r3" />
-                <Label htmlFor="r3" className="text-[#fa8072]">
-                  Salmon
+                <RadioGroupItem value="#a8e4a0" id="r3" />
+                <Label htmlFor="r3" className="text-[#a8e4a0]">
+                  Apple
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="#ff9933" id="r3" />
+                <Label htmlFor="r3" className="text-[#ff9933]">
+                  Deep Saffron
                 </Label>
               </div>
             </RadioGroup>
