@@ -8,12 +8,10 @@ export default function PreviewLynkPage({
   lynks,
   clusterData,
   key,
-  img,
 }: {
   lynks: Array<any>;
   clusterData: ClusterData;
   key: number;
-  img: string;
 }) {
   const handleFocus = (event: any) => {
     event.target.blur();

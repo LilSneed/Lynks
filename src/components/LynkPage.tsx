@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Lynk from "./Lynk";
 import RelatedMenu from "./RelatedMenu";
+import cluster from "cluster";
 
 export default function LynkPage({
   lynks,
@@ -41,7 +42,7 @@ export default function LynkPage({
         </div>
 
         <Image
-          src={"https://placehold.co/600x600/pngplaceholder.com/600x600.png"}
+          src={clusterData[0].image}
           alt="User Image"
           width={200}
           height={200}

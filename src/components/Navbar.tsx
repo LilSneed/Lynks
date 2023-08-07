@@ -24,7 +24,14 @@ export default function Navbar() {
               <Link href="/dashboard">My Clusters</Link>
             </Button>
             <Button asChild variant="link" className="sm:inline-block hidden">
-              <Link href="/login">About</Link>
+              <Link href="/about">About</Link>
+            </Button>
+            <Button
+              asChild
+              variant="link"
+              className="sm:inline-block hidden text-xl text-yellow-400"
+            >
+              <Link href="/danger">⚠️List of known dev issues⚠️</Link>
             </Button>
           </nav>
         </div>
@@ -37,7 +44,9 @@ export default function Navbar() {
           <UserButton />
           <SignedOut>
             <Button variant="outline" asChild className="">
-              <SignInButton>Login</SignInButton>
+              <Link href="/sign-in">
+                <SignInButton>Login</SignInButton>
+              </Link>
             </Button>
 
             <Button variant="outline" asChild className="bg-teal-600">
