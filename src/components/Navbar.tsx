@@ -26,6 +26,9 @@ export default function Navbar() {
             <Button asChild variant="link" className="sm:inline-block hidden">
               <Link href="/about">About</Link>
             </Button>
+            <Button asChild variant="link" className="sm:inline-block hidden">
+              <Link href="/examples">Examples</Link>
+            </Button>
             <Button
               asChild
               variant="link"

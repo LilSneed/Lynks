@@ -41,7 +41,6 @@ export default function CreateLynk({
   const [success, setSuccess] = React.useState(false);
   const handleCLick = () => {
     setOpen(true);
-    console.log(open);
   };
 
   const lynkData = {
@@ -66,7 +65,6 @@ export default function CreateLynk({
     }
   };
 
-  console.log(lynkData);
   return (
     <Card className="w-[350px]">
       <CardHeader>
