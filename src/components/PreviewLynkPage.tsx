@@ -8,10 +8,12 @@ export default function PreviewLynkPage({
   lynks,
   clusterData,
   key,
+  img,
 }: {
   lynks: Array<any>;
   clusterData: ClusterData;
   key: number;
+  img: string;
 }) {
   const handleFocus = (event: any) => {
     event.target.blur();
@@ -25,7 +27,7 @@ export default function PreviewLynkPage({
     >
       <div className="flex justify-center flex-col">
         <Image
-          src={"https://placehold.co/600x600/pngplaceholder.com/600x600.png"}
+          src={clusterData.image}
           alt="User Image"
           width={200}
           height={200}
@@ -43,7 +45,7 @@ export default function PreviewLynkPage({
           key={lynk.id}
           id={lynk.id}
           edit={false}
-          img={"https://placehold.co/600x600/pngplaceholder.com/600x600.png"}
+          img={lynk.image}
           url={lynk.url}
           title={lynk.title}
           color={lynk.color}

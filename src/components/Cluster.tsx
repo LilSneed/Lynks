@@ -28,9 +28,9 @@ export default function Cluster({
         </Link>
       </div>
       <Image
-        width={300}
-        height={300}
-        src={`https://placehold.co/600x400/png`}
+        width={150}
+        height={150}
+        src={img}
         alt="Cluster Picture"
         className="rounded-full"
       />

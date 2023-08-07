@@ -7,9 +7,11 @@ import { Button } from "./ui/button";
 export default function CreateCluster({
   userId,
   authId,
+  img,
 }: {
   userId: number;
   authId: string;
+  img: string;
 }) {
   const [clusterUrl, setClusterUrl] = React.useState("");
   const [error, setError] = React.useState("");
@@ -17,7 +19,7 @@ export default function CreateCluster({
   const clusterData = {
     creatorId: userId,
     authId: authId,
-    image: "clusterImage",
+    image: img,
     url: clusterUrl,
     title: "My Cluster",
     description: "Cluster Description...",

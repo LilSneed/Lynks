@@ -47,7 +47,7 @@ export default async function page() {
         >
           <Cluster
             id={cluster.id}
-            img={"https://placehold.co/600x400/pngplaceholder.com/600x400.png"}
+            img={user?.imageUrl}
             url={cluster.url}
             key={cluster.id}
             title={cluster.url}
@@ -56,8 +56,12 @@ export default async function page() {
       ))}
       <Separator />
       <div className="flex justify-center">
-        {checkDbId && userAuthId && (
-          <CreateCluster userId={checkDbId.id} authId={userAuthId} />
+        {checkDbId && userAuthId && user && (
+          <CreateCluster
+            userId={checkDbId.id}
+            authId={userAuthId}
+            img={user?.imageUrl}
+          />
         )}
       </div>
     </section>

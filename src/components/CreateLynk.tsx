@@ -15,13 +15,16 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { url } from "inspector";
-
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 export default function CreateLynk({
   clusterId,
   authId,
@@ -32,26 +35,38 @@ export default function CreateLynk({
   const [colorValue, setColorValue] = React.useState("#fef2f2");
   const [titleValue, setTitleValue] = React.useState("");
   const [urlValue, setUrlValue] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [imageValue, setImageValue] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [success, setSuccess] = React.useState(false);
   const handleCLick = () => {
-    console.log("clicked");
+    setOpen(true);
+    console.log(open);
   };
 
   const lynkData = {
     title: titleValue,
     url: urlValue,
-    image: "placeholder",
+    image: imageValue,
     clusterId: clusterId,
     color: colorValue,
     authId: authId,
   };
 
   const handleSubmit = async () => {
-    await fetch("http://localhost:3000/api/createLynk", {
-      method: "POST",
-      body: JSON.stringify(lynkData),
-    });
+    if (!lynkData.title || !lynkData.url || !lynkData.image) {
+      setError("One or more Values are Empty!");
+    } else {
+      await fetch("http://localhost:3000/api/createLynk", {
+        method: "POST",
+        body: JSON.stringify(lynkData),
+      });
+      setOpen(false);
+      setSuccess(true);
+    }
   };
 
+  console.log(lynkData);
   return (
     <Card className="w-[350px]">
       <CardHeader>
@@ -77,8 +92,24 @@ export default function CreateLynk({
             />
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="name">Image</Label>
-            <Input id="name" placeholder="PLACEHOLDER" />
+            <Label>{`Image (Emojis only)`}</Label>
+            <Button onClick={handleCLick} variant={"default"}>
+              <p>Emojis</p>
+              {open && (
+                <div className="fixed">
+                  <Picker
+                    data={data}
+                    onEmojiSelect={(e: any) => {
+                      setImageValue(e.native);
+                      setOpen(false);
+                    }}
+                    theme="dark"
+                    onClickOutside={() => setOpen(false)}
+                  />
+                </div>
+              )}
+            </Button>
+            <Label>{`Currently Selected > ${imageValue}`}</Label>
           </div>
           <div className="flex flex-col space-y-1.5">
             <RadioGroup
@@ -109,6 +140,15 @@ export default function CreateLynk({
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">
+        <Label className="mx-5 text-red-600">
+          {error}
+          {success && (
+            <Label className="text-green-500 mx-5">
+              {" "}
+              Lynk Added Successfully{" "}
+            </Label>
+          )}
+        </Label>
         <Button onClick={handleSubmit}>Add</Button>
       </CardFooter>
     </Card>

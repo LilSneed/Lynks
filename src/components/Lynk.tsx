@@ -36,13 +36,9 @@ export default function Lynk({
           style={{ backgroundColor: color }}
           className="flex flex-row rounded-full"
         >
-          <Image
-            src={img}
-            height={70}
-            width={70}
-            alt="user image"
-            className="rounded-full"
-          />
+          <div className="p-5 flex">
+            <p className="grow text-4xl">{img}</p>
+          </div>
           <h2 className="text-black text-center grow self-center scroll-m-20 text-2xl font-semibold tracking-tight pr-16">
             {title}
           </h2>
