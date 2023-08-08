@@ -31,15 +31,19 @@ export default function CreateCluster({
   };
 
   const handleSubmit = async () => {
+    if (!clusterUrl) {
+      setError("⚠️ Cluster URL Cannot be empty ⚠️");
+      return;
+    }
     if (clusterUrl.includes(" ")) {
-      setError("Cluster URL cannot contain spaces");
+      setError("⚠️ Cluster URL cannot contain spaces ⚠️");
       return;
     }
     await fetch("http://localhost:3000/api/createCluster", {
       method: "POST",
       body: JSON.stringify(clusterData),
     });
-    setError("");
+    setError("Cluster created successfully");
   };
 
   return (
@@ -56,7 +60,7 @@ export default function CreateCluster({
       <Button variant="secondary" onClick={handleSubmit}>
         Create
       </Button>
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-white">{error}</p>}
       <p className="text-sm text-muted-foreground">
         This will be your Cluster URL, you will be able to edit it afterwards.
       </p>

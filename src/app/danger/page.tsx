@@ -13,8 +13,6 @@ export default function page() {
         </p>
         <h1>TODO</h1>
         <div className="text-lg text-red-500">
-          <p>1. Edit Cluster Name Api</p>
-          <p>2. Delete Cluster api</p>
           <p>3. Render error on description edit failure</p>
           <p>4. Link Clusters</p>
           <p>5. Cluster data graph view</p>
@@ -22,6 +20,7 @@ export default function page() {
           <p>7. About Page</p>
           <p>8. desktop view of dashboard</p>
           <p>9. delete link on cluster functionality</p>
+          <p>10. return error on create cluster if unique check doesn't pass</p>
         </div>
       </div>
     </section>

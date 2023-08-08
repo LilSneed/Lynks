@@ -34,7 +34,7 @@ export default async function page() {
   }
 
   const userClusters = checkDbId?.clusters;
-  console.log(userClusters, "clusters");
+
   return (
     <section className="mt-20 flex flex-col justify-center text-center container">
       <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
@@ -47,7 +47,7 @@ export default async function page() {
         >
           <Cluster
             id={cluster.id}
-            img={user?.imageUrl}
+            img={user?.imageUrl || ""}
             url={cluster.url}
             key={cluster.id}
             title={cluster.url}

@@ -16,7 +16,19 @@ export default async function page({ params }: { params: { slug: string } }) {
     },
   });
 
-  const lynks = clusterData[0].lynks;
-  console.log(clusterData);
-  return <LynkPage lynks={lynks} clusterData={clusterData} key={1} />;
+  console.log(clusterData[0], "clusterdata");
+  return (
+    <section>
+      {clusterData.length > 0 && (
+        <LynkPage
+          lynks={clusterData[0].lynks}
+          clusterData={clusterData}
+          key={1}
+        />
+      )}
+      {clusterData.length === 0 && (
+        <h1>{`No Cluster Resides at this URL :(`}</h1>
+      )}
+    </section>
+  );
 }
