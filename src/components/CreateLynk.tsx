@@ -21,10 +21,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { url } from "inspector";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { useRouter } from "next/navigation";
+
 export default function CreateLynk({
   clusterId,
   authId,
@@ -39,6 +42,7 @@ export default function CreateLynk({
   const [imageValue, setImageValue] = React.useState("");
   const [error, setError] = React.useState("");
   const [success, setSuccess] = React.useState(false);
+  const router = useRouter();
   const handleCLick = () => {
     setOpen(true);
   };
@@ -62,6 +66,7 @@ export default function CreateLynk({
       });
       setOpen(false);
       setSuccess(true);
+      router.refresh();
     }
   };
 
@@ -157,4 +162,7 @@ export default function CreateLynk({
       </CardFooter>
     </Card>
   );
+}
+function userRouter() {
+  throw new Error("Function not implemented.");
 }

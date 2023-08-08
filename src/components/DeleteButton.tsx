@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,7 +13,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
-export function DeleteButton() {
+export function DeleteButton({ id, authId }: { id: number; authId: string }) {
+  const userData = {
+    id: id,
+    authId: authId,
+  };
+  const handleClick = async () => {
+    await fetch("http://localhost:3000/api/deleteCluster", {
+      method: "DELETE",
+      body: JSON.stringify(userData),
+    });
+    console.log(userData);
+  };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -29,7 +42,7 @@ export function DeleteButton() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={handleClick}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -22,14 +22,3 @@ Setup
 1. Get the clerk keys from [Clerk Dashboard](https://dashboard.clerk.com/)
 1. Add them to `.env` as shown in `.env.example`
 1. Run dev server `npm run dev`
-
-## TODO
-
-1. Edit Cluster Name Api
-1. Delete Cluster api
-1. Edit Cluster Description api
-1. Link Clusters
-1. cluster data graph view
-1. Example page
-1. About Page
-1. Landing page style and description

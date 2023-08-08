@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function DescEdit({
@@ -17,16 +18,17 @@ export default function DescEdit({
     authId: authId,
     id: id,
   };
-
+  const router = useRouter();
   const handleSubmit = async () => {
     await fetch("http://localhost:3000/api/editClusterDesc", {
       method: "POST",
       body: JSON.stringify(descData),
     });
+    router.refresh();
   };
 
   return (
-    <div className="grid w-full gap-2">
+    <div className="flex flex-col w-full gap-2">
       <h4 className="text-center scroll-m-20 text-base font-semibold tracking-tight">
         Edit Cluster Description
       </h4>
@@ -35,7 +37,9 @@ export default function DescEdit({
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <Button onClick={handleSubmit}>Update</Button>
+      <Button onClick={handleSubmit} className="lg:self-end">
+        Update
+      </Button>
     </div>
   );
 }

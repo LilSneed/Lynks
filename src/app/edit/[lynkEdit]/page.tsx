@@ -27,7 +27,7 @@ export default async function page({
   })) as ClusterData;
 
   const lynks = clusterData.lynks;
-  console.log(clusterData, "clustedata");
+
   if (clusterData.authId === userAuthId) {
     return (
       <section className="flex lg:flex-row flex-col mt-10 mb-20 sm:container gap-5 min-h-screen">
@@ -56,17 +56,19 @@ export default async function page({
             <p className="text-center scroll-m-20 text-xl font-semibold tracking-tight mb-10">
               Edit Cluster
             </p>
-            <ChangeName namePh={clusterData.title} />
+            <ChangeName
+              namePh={clusterData.title}
+              authId={userAuthId}
+              id={clusterData.id}
+            />
           </div>
-          <div className="grow flex justify-center">
-            <ImageInput />
-          </div>
+
           <div className="mt-10 mx-2">
             <DescEdit id={clusterData.id} authId={userAuthId} />
           </div>
           <Separator className="hidden lg:inline-block" />
           <div className="my-5 self-center">
-            <DeleteButton />
+            <DeleteButton id={clusterData.id} authId={userAuthId} />
           </div>
         </div>
       </section>
