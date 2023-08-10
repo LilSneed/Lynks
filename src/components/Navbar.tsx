@@ -34,13 +34,17 @@ export default function Navbar() {
               variant="link"
               className="sm:inline-block hidden text-xl text-yellow-400"
             >
-              <Link href="/danger">⚠️List of known dev issues⚠️</Link>
+              <Link href="/danger">⚠️issues / bugs⚠️</Link>
             </Button>
           </nav>
         </div>
         <div className="flex flex-row justify-between gap-5 items-center">
           <SignedIn>
-            <Button variant="outline" asChild className="bg-teal-600">
+            <Button
+              variant="outline"
+              asChild
+              className="bg-teal-600 hover:bg-teal-900 text-zinc-200 hover:text-white"
+            >
               <Link href="/dashboard">Dashboard</Link>
             </Button>
           </SignedIn>
@@ -52,7 +56,11 @@ export default function Navbar() {
               </Link>
             </Button>
 
-            <Button variant="outline" asChild className="bg-teal-600">
+            <Button
+              variant="outline"
+              asChild
+              className="bg-teal-600 hover:bg-teal-900 text-zinc-200 hover:text-white"
+            >
               <Link href="/sign-up">Sign Up</Link>
             </Button>
           </SignedOut>

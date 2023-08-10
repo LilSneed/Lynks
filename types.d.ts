@@ -7,6 +7,7 @@ interface ClusterData {
   title: string;
   description: string;
   lynks: Array<any>;
+  relatedClusters: Array<any>;
 }
 
 type SubmitHandler = (data: z.infer<typeof formSchema>) => void;

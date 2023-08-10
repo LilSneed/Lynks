@@ -6,9 +6,11 @@ import { DeleteButton } from "@/components/DeleteButton";
 import DescEdit from "@/components/DescEdit";
 import { ImageInput } from "@/components/ImageInput";
 import PreviewLynkPage from "@/components/PreviewLynkPage";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { auth } from "@clerk/nextjs";
 import cluster from "cluster";
+import Link from "next/link";
 import React from "react";
 
 export default async function page({
@@ -24,6 +26,7 @@ export default async function page({
     },
     include: {
       lynks: true,
+      relatedClusters: true,
     },
   })) as ClusterData;
 
@@ -40,9 +43,22 @@ export default async function page({
             Cluster Preview
           </p>
           <Separator />
-          <PreviewLynkPage lynks={lynks} clusterData={clusterData} key={1} />
+          <PreviewLynkPage
+            lynks={lynks}
+            clusterData={clusterData}
+            key={1}
+            relatedClusters={clusterData.relatedClusters}
+          />
         </div>
         <div className="grow flex-1 order-first lg:order-none flex flex-col">
+          <Link href={`/${clusterData.url}`} className="self-center">
+            <Button
+              variant="default"
+              className="bg-teal-600 hover:bg-teal-900 text-zinc-200 hover:text-white"
+            >
+              Navigate to Cluster
+            </Button>
+          </Link>
           <p className="text-center scroll-m-20 text-xl font-semibold tracking-tight my-5">
             Edit Lynks
           </p>

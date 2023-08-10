@@ -13,6 +13,7 @@ export default async function page({ params }: { params: { slug: string } }) {
     },
     include: {
       lynks: true,
+      relatedClusters: true,
     },
   });
 
@@ -24,6 +25,7 @@ export default async function page({ params }: { params: { slug: string } }) {
           lynks={clusterData[0].lynks}
           clusterData={clusterData}
           key={1}
+          relatedClusters={clusterData[0].relatedClusters}
         />
       )}
       {clusterData.length === 0 && (
