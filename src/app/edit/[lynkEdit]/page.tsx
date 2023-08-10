@@ -1,5 +1,6 @@
 import { prisma } from "@/app/db";
 import ChangeName from "@/components/ChangeName";
+import ConnectCluster from "@/components/ConnectCluster";
 import CreateLynk from "@/components/CreateLynk";
 import { DeleteButton } from "@/components/DeleteButton";
 import DescEdit from "@/components/DescEdit";
@@ -62,7 +63,12 @@ export default async function page({
               id={clusterData.id}
             />
           </div>
-
+          <ConnectCluster
+            id={clusterData.id}
+            authId={clusterData.authId}
+            namePh={"ex: /anotherUrl"}
+            thisUrl={clusterData.url}
+          />
           <div className="mt-10 mx-2">
             <DescEdit id={clusterData.id} authId={userAuthId} />
           </div>

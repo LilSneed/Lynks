@@ -6,40 +6,44 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  name String
-  authId String @unique
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  name     String
+  authId   String    @unique
   clusters Cluster[]
 }
 
 model Cluster {
-  id Int @id @default(autoincrement())
-  creator User? @relation(fields: [creatorId], references: [id])
-  creatorId Int
-  authId String 
-  image String
-  url String @unique
-  title String
-  description String @default(dbgenerated("'Cluster Description'"))
-  lynks Lynk[]
+  id                Int       @id @default(autoincrement())
+  creator           User?     @relation(fields: [creatorId], references: [id])
+  creatorId         Int
+  authId            String
+  image             String
+  url               String    @unique
+  title             String
+  description       String    @default(dbgenerated("'Cluster Description'"))
+  relatedClusters   Cluster[] @relation("RelatedClusters")
+  belongsToClusters Cluster[] @relation("RelatedClusters")
+  lynks             Lynk[]
+
   @@index([creatorId])
 }
 
 model Lynk {
-  id Int @id @default(autoincrement())
-  image String
-  url String
-  title String
-  color String
-  authId String
-  cluster Cluster @relation(fields: [clusterId], references: [id])
+  id        Int     @id @default(autoincrement())
+  image     String
+  url       String
+  title     String
+  color     String
+  authId    String
+  cluster   Cluster @relation(fields: [clusterId], references: [id])
   clusterId Int
+
   @@index([clusterId])
 }
