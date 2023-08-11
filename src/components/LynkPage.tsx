@@ -51,15 +51,6 @@ export default function LynkPage({
           color={lynk.color}
         />
       ))}
-      <Separator />
-      {relatedClusters.map((cluster) => (
-        <ClusterLynk
-          image={cluster.image}
-          url={cluster.url}
-          title={cluster.title}
-          description={cluster.description}
-        />
-      ))}
     </div>
   );
 }

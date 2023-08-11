@@ -17,7 +17,7 @@ export default function Cluster({
 }) {
   return (
     <div
-      className="mt-5 rounded-full mx-5 flex-col flex-wrap sm:flex-row"
+      className="mt-5 rounded-full mx-5 flex-col flex-wrap sm:flex-row justify-center"
       key={id}
     >
       <div className="flex justify-center items-center ">
@@ -32,7 +32,7 @@ export default function Cluster({
         height={150}
         src={img}
         alt="Cluster Picture"
-        className="rounded-full"
+        className="rounded-full mx-auto"
       />
       <p className="self-center grow">{title}</p>
     </div>

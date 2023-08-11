@@ -4,18 +4,15 @@ import React from "react";
 import Image from "next/image";
 import Lynk from "./Lynk";
 import { Separator } from "../components/ui/separator";
-import ClusterLynk from "./ClusterLynk";
 
 export default function PreviewLynkPage({
   lynks,
   clusterData,
   key,
-  relatedClusters,
 }: {
   lynks: Array<any>;
   clusterData: ClusterData;
   key: number;
-  relatedClusters: Array<any>;
 }) {
   const handleFocus = (event: any) => {
     event.target.blur();
@@ -55,14 +52,6 @@ export default function PreviewLynkPage({
         />
       ))}
       <Separator />
-      {relatedClusters.map((cluster) => (
-        <ClusterLynk
-          image={cluster.image}
-          url={cluster.url}
-          title={cluster.title}
-          description={cluster.description}
-        />
-      ))}
     </div>
   );
 }

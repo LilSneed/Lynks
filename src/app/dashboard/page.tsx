@@ -40,7 +40,7 @@ export default async function page() {
       <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
         My Clusters
       </h2>
-      <div className="flex flex-col md:flex-row justify-between">
+      <div className="flex flex-col md:flex-row justify-center">
         {userClusters?.map((cluster) => (
           <div
             className="flex md:flex-row flex-col items-center justify-center"
@@ -51,7 +51,7 @@ export default async function page() {
               img={user?.imageUrl || ""}
               url={cluster.url}
               key={cluster.id}
-              title={cluster.url}
+              title={cluster.title}
             />
           </div>
         ))}
