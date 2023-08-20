@@ -1,7 +1,6 @@
 import { prisma } from "@/app/db";
 import React from "react";
-import * as d3 from "d3";
-import D3Example from "@/components/D3test";
+import testData from "../../../../public/data.json";
 
 import dynamic from "next/dynamic";
 
@@ -20,6 +19,7 @@ export default async function page({ params }: { params: { slug: string } }) {
     },
   });
   const relatedClusters = clusterData[0].relatedClusters;
+  console.log(clusterData[0]);
   return (
     <div className="m- flex justify-center">
       <D3test clusterData={clusterData[0]} />

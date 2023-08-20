@@ -1,11 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
 export default function D3test({ clusterData }) {
-  const data = clusterData;
+  const [data, setData] = useState([clusterData]);
   console.log(data);
+  const getData = async (id, url) => {
+    const request = await fetch(
+      `http://localhost:3000/api/getClusterData?id=${id}&url=${url}`
+    );
+    const data = await request.json();
+    return data;
+  };
+
   const svgRef = useRef();
   const width = 928;
   const height = 600;
@@ -20,30 +28,36 @@ export default function D3test({ clusterData }) {
 
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    const links = data.relatedClusters.map((cluster) => ({
-      source: data.title,
-      target: cluster.title,
-      value: 1,
-    }));
+    const links = data
+      .map((cluster) =>
+        cluster.relatedClusters.map((relatedCluster) => ({
+          source: cluster.title,
+          target: relatedCluster.title,
+          value: 1,
+        }))
+      )
+      .reduce((acc, val) => acc.concat(val), []);
 
-    const nodes = [
-      {
-        id: data.title,
-        group: 1,
-        radius: data.relatedClusters.length,
-        clusterId: data.id,
-        url: data.url,
-      },
-      ...data.relatedClusters.map((cluster, index) => ({
-        id: cluster.title,
-        group: index + 2,
-        radius: cluster.relatedClusters ? cluster.relatedClusters.length : 1,
-        clusterId: cluster.id,
-        url: cluster.url,
-      })),
-    ];
-
-    console.log(data);
+    const nodes = data
+      .map((cluster) => [
+        {
+          id: cluster.title,
+          group: 1,
+          radius: cluster.relatedClusters.length,
+          clusterId: cluster.id,
+          url: cluster.url,
+        },
+        ...cluster.relatedClusters.map((relatedCluster, index) => ({
+          id: relatedCluster.title,
+          group: index + 2,
+          radius: relatedCluster.relatedClusters
+            ? relatedCluster.relatedClusters.length
+            : 1,
+          clusterId: relatedCluster.id,
+          url: relatedCluster.url,
+        })),
+      ])
+      .reduce((acc, val) => acc.concat(val), []);
 
     const simulation = d3
       .forceSimulation(nodes)
@@ -101,19 +115,37 @@ export default function D3test({ clusterData }) {
       node
         .selectAll("text")
         .attr("x", (d) => d.x)
-        .attr("font-size", (d) => d.radius * 15 + "px")
+        .attr("font-size", (d) => d.radius * 2 + 10 + "px")
         .attr("font-weight", 50)
         .attr("fill", "white")
         .attr("y", (d) => d.y + d.radius * 25);
       node
         .selectAll("circle")
         .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y);
+      node
+        .selectAll("circle")
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y);
+      node
+        .selectAll("circle")
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y);
+      node
+        .selectAll("circle")
+        .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y)
-        .on("click", function (event, d) {
-          console.log(`hello from ${d.url}, ${d.clusterId}`);
-        })
-        .on("click", function (event, d) {
-          window.location.href = `/${d.url}`;
+        .on("click", async (event, d) => {
+          const newData = await getData(d.clusterId, d.url);
+
+          if (newData.relatedClusters && newData.relatedClusters.length > 0) {
+            d3.select(svgRef.current).selectAll("*").remove();
+            setData((prevData) =>
+              prevData
+                .filter((cluster) => cluster.id !== d.clusterId)
+                .concat(newData)
+            );
+          }
         });
 
       node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
@@ -140,7 +172,7 @@ export default function D3test({ clusterData }) {
       // Cleanup code (optional) - This will be executed when the component unmounts.
       simulation.stop();
     };
-  }); // Empty dependency array ensures the effect runs only once after initial render
+  }, [data]); // Empty dependency array ensures the effect runs only once after initial render
 
   return <svg ref={svgRef}></svg>;
 }

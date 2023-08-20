@@ -1,15 +1,31 @@
 {
-  "nodes": [
-    { "id": "Myriel", "group": 1 },
-    { "id": "MyPersonalCluster", "group": 1 },
-    { "id": "SecondCluster", "group": 2 }
-  ],
-  "links": [
-    { "source": "MyPersonalCluster", "target": "Myriel", "value": 1 },
+  "id": 43,
+  "creatorId": 19,
+  "authId": "user_2TmHPIHoP1sAfqoGH639bFzRFAH",
+  "image": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yVG1IUFlFN0NVaWFUbzlmRVJsMG9RZEVRVFEuanBlZyJ9",
+  "url": "PissiCuckitini",
+  "title": "Pissi Cuckitini exposed (KWAB)",
+  "description": "Pissi Cuckitini's most fraudulent clips",
+  "lynks": [
     {
-      "source": "MyPersonalCluster",
-      "target": "SecondCluster",
-      "value": 1
+      "id": 21,
+      "image": "😱",
+      "url": "youtu.be/QG64mYP0d7o",
+      "title": "3 minutes of leo messi autism",
+      "color": "#318ce7",
+      "authId": "user_2TmHPIHoP1sAfqoGH639bFzRFAH",
+      "clusterId": 43
+    }
+  ],
+  "relatedClusters": [
+    {
+      "id": 46,
+      "creatorId": 19,
+      "authId": "user_2TmHPIHoP1sAfqoGH639bFzRFAH",
+      "image": "https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yVG1IUFlFN0NVaWFUbzlmRVJsMG9RZEVRVFEuanBlZyJ9",
+      "url": "clustertwo",
+      "title": "Riggi Riggitini",
+      "description": "Cluster Description..."
     }
   ]
 }
