@@ -24,12 +24,15 @@
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.4",
+    "@types/d3-force": "^3.0.4",
     "@types/node": "20.4.4",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "d3": "^7.8.5",
+    "d3-force": "^3.0.0",
     "emoji-mart": "^5.5.2",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
@@ -44,6 +47,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.0",
     "prisma": "^5.0.0",
     "tailwindcss-animate": "^1.0.6"
   }

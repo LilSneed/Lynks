@@ -1,0 +1,15 @@
+{
+  "nodes": [
+    { "id": "Myriel", "group": 1 },
+    { "id": "MyPersonalCluster", "group": 1 },
+    { "id": "SecondCluster", "group": 2 }
+  ],
+  "links": [
+    { "source": "MyPersonalCluster", "target": "Myriel", "value": 1 },
+    {
+      "source": "MyPersonalCluster",
+      "target": "SecondCluster",
+      "value": 1
+    }
+  ]
+}

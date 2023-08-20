@@ -11,3 +11,19 @@ interface ClusterData {
 }
 
 type SubmitHandler = (data: z.infer<typeof formSchema>) => void;
+
+interface Node {
+  id: string;
+  group: number;
+}
+
+interface Link {
+  value: number;
+  source: string;
+  target: string;
+}
+
+interface dataObject {
+  nodes: Node[];
+  links: Link[];
+}

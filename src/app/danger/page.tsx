@@ -20,7 +20,9 @@ export default function page() {
           <p>7. About Page</p>
           <p>8. desktop view of dashboard</p>
           <p>9. delete link on cluster functionality</p>
-          <p>10. return error on create cluster if unique check doesn't pass</p>
+          <p>
+            10. return error on create cluster if unique check doesn&apos;t pass
+          </p>
         </div>
       </div>
     </section>

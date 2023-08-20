@@ -47,7 +47,8 @@ export default function ConnectCluster({
       <p className="text-sm text-muted-foreground">
         This will create a ONE WAY connection between this cluster and another
         one. <br />
-        Make sure the input is just the part after the " / " of the URL. <br />
+        Make sure the input is just the part after the &quot; / &quot; of the
+        URL. <br />
       </p>
       <Button onClick={handleSubmit} className="lg:self-end">
         Update
