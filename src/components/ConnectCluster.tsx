@@ -18,6 +18,8 @@ export default function ConnectCluster({
   thisUrl: string;
 }) {
   const [url, setUrl] = React.useState("");
+  const [error, setError] = React.useState("");
+
   const router = useRouter();
   const titleData = {
     relatedClusterUrl: url,
@@ -27,6 +29,14 @@ export default function ConnectCluster({
   };
 
   const handleSubmit = async () => {
+    if (!url) {
+      setError("URL cannot be empty!"); // Set the error message
+      return;
+    }
+
+    // Clear the error message if there was no error
+    setError("");
+
     await fetch("http://localhost:3000/api/connectCluster", {
       method: "POST",
       body: JSON.stringify(titleData),
@@ -44,6 +54,7 @@ export default function ConnectCluster({
         value={url}
         onChange={(e) => setUrl(e.target.value)}
       />
+      {error && <p className="text-red-500">{error}</p>}
       <p className="text-sm text-muted-foreground">
         This will create a ONE WAY connection between this cluster and another
         one. <br />

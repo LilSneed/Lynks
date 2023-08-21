@@ -16,6 +16,8 @@ export default function ChangeName({
   namePh: string;
 }) {
   const [title, setTitle] = React.useState("");
+  const [error, setError] = React.useState(""); // State for holding the error message
+
   const router = useRouter();
   const titleData = {
     title: title,
@@ -24,6 +26,11 @@ export default function ChangeName({
   };
 
   const handleSubmit = async () => {
+    if (!title) {
+      setError("Title cannot be empty!");
+      return;
+    }
+    setError("");
     await fetch("http://localhost:3000/api/editClusterTitle", {
       method: "POST",
       body: JSON.stringify(titleData),
@@ -41,6 +48,7 @@ export default function ChangeName({
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
+      {error && <p className="text-red-500">{error}</p>}
       <Button onClick={handleSubmit} className="lg:self-end">
         Update
       </Button>

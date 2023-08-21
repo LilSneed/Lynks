@@ -60,6 +60,7 @@ export default function CreateLynk({
     if (!lynkData.title || !lynkData.url || !lynkData.image) {
       setError("One or more Values are Empty!");
     } else {
+      setError(""); // Clear the error message
       await fetch("http://localhost:3000/api/createLynk", {
         method: "POST",
         body: JSON.stringify(lynkData),
@@ -149,20 +150,14 @@ export default function CreateLynk({
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">
-        <Label className="mx-5 text-red-600">
-          {error}
+        <Label className="mx-5">
+          {error && <span className="text-red-600">{error}</span>}
           {success && (
-            <Label className="text-green-500 mx-5">
-              {" "}
-              Lynk Added Successfully{" "}
-            </Label>
+            <span className="text-green-500 mx-5">Lynk Added Successfully</span>
           )}
         </Label>
         <Button onClick={handleSubmit}>Add</Button>
       </CardFooter>
     </Card>
   );
-}
-function userRouter() {
-  throw new Error("Function not implemented.");
 }

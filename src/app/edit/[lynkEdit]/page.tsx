@@ -43,12 +43,7 @@ export default async function page({
             Cluster Preview
           </p>
           <Separator />
-          <PreviewLynkPage
-            lynks={lynks}
-            clusterData={clusterData}
-            key={1}
-            relatedClusters={clusterData.relatedClusters}
-          />
+          <PreviewLynkPage lynks={lynks} clusterData={clusterData} key={1} />
         </div>
         <div className="grow flex-1 order-first lg:order-none flex flex-col">
           <Link href={`/${clusterData.url}`} className="self-center">

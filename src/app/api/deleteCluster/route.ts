@@ -6,14 +6,14 @@ export async function DELETE(request: Request) {
   try {
     const userData = JSON.parse(await request.text());
     const user = await clerkClient.users.getUser(userData.authId);
-    console.log(userData, "DATA");
-    if (user) {
+    console.log(userData, "DATA", user.id);
+    if (user.id == userData.authId) {
       try {
         await prisma.cluster.delete({
           where: { id: userData.id },
           include: { lynks: true },
         });
-
+        console.log("success");
         return NextResponse.json("Cluster description updated successfully");
       } catch (error) {
         return NextResponse.json(

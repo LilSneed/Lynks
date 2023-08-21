@@ -42,7 +42,7 @@ model Lynk {
   title     String
   color     String
   authId    String
-  cluster   Cluster @relation(fields: [clusterId], references: [id])
+  cluster   Cluster @relation(fields: [clusterId], references: [id], onDelete: Cascade)
   clusterId Int
 
   @@index([clusterId])
