@@ -17,15 +17,19 @@ export default async function page({ params }: { params: { slug: string } }) {
       lynks: true,
       relatedClusters: {
         include: {
-          relatedClusters: true,
+          relatedClusters: {
+            include: {
+              relatedClusters: true,
+              lynks: true,
+            },
+          },
           lynks: true,
         },
       },
     },
   });
-  console.log(clusterData);
-  const relatedClusters = clusterData[0].relatedClusters;
 
+  const relatedClusters = clusterData[0].relatedClusters;
   return (
     <div className="m- flex justify-center">
       <D3test clusterData={clusterData[0]} />
