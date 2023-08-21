@@ -28,36 +28,62 @@ export default function D3test({ clusterData }) {
 
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
-    const links = data
-      .map((cluster) =>
-        cluster.relatedClusters.map((relatedCluster) => ({
-          source: cluster.title,
-          target: relatedCluster.title,
-          value: 1,
-        }))
-      )
-      .reduce((acc, val) => acc.concat(val), []);
+    const visitedClusters = new Set();
 
-    const nodes = data
-      .map((cluster) => [
+    const prepareLinks = (cluster) => {
+      const links = [];
+
+      if (cluster.relatedClusters && cluster.relatedClusters.length > 0) {
+        links.push(
+          ...cluster.relatedClusters.map((relatedCluster) => ({
+            source: cluster.title,
+            target: relatedCluster.title,
+            value: 1,
+          }))
+        );
+
+        cluster.relatedClusters.forEach((relatedCluster) => {
+          links.push(...prepareLinks(relatedCluster));
+        });
+      }
+
+      return links;
+    };
+
+    const links = data.reduce((acc, cluster) => {
+      return acc.concat(prepareLinks(cluster));
+    }, []);
+
+    const prepareNodes = (cluster, groupId) => {
+      if (visitedClusters.has(cluster.id)) {
+        return [];
+      }
+
+      visitedClusters.add(cluster.id);
+
+      const nodes = [
         {
           id: cluster.title,
-          group: 1,
-          radius: cluster.relatedClusters.length,
+          group: groupId,
+          radius: cluster.relatedClusters ? cluster.relatedClusters.length : 0,
           clusterId: cluster.id,
           url: cluster.url,
+          lynks: cluster.lynks, // Add the lynk data here
         },
-        ...cluster.relatedClusters.map((relatedCluster, index) => ({
-          id: relatedCluster.title,
-          group: index + 2,
-          radius: relatedCluster.relatedClusters
-            ? relatedCluster.relatedClusters.length
-            : 1,
-          clusterId: relatedCluster.id,
-          url: relatedCluster.url,
-        })),
-      ])
-      .reduce((acc, val) => acc.concat(val), []);
+      ];
+
+      if (cluster.relatedClusters && cluster.relatedClusters.length > 0) {
+        cluster.relatedClusters.forEach((relatedCluster, index) => {
+          nodes.push(...prepareNodes(relatedCluster, groupId + index + 2));
+        });
+      }
+
+      return nodes;
+    };
+
+    const nodes = data.reduce((acc, cluster, index) => {
+      return acc.concat(prepareNodes(cluster, index + 1));
+    }, []);
 
     const simulation = d3
       .forceSimulation(nodes)
@@ -88,12 +114,12 @@ export default function D3test({ clusterData }) {
 
     node
       .append("circle")
-      .attr("r", (d) => d.radius * 10)
+      .attr("r", (d) => d.radius * 5 + 5)
       .attr("fill", (d) => color(d.group));
 
     node
       .append("text")
-      .attr("dx", (d) => -50)
+      .attr("dx", (d) => -30)
       .text((d) => d.id);
 
     node.append("title").text((d) => d.id);
@@ -105,6 +131,12 @@ export default function D3test({ clusterData }) {
         .on("drag", dragged)
         .on("end", dragended)
     );
+    const lynk = node
+      .selectAll("g")
+      .data((d) => d.lynks || [])
+      .join("g");
+
+    lynk.append("circle").attr("r", 5).attr("fill", "white");
 
     function ticked() {
       link
@@ -116,9 +148,9 @@ export default function D3test({ clusterData }) {
         .selectAll("text")
         .attr("x", (d) => d.x)
         .attr("font-size", (d) => d.radius * 2 + 10 + "px")
-        .attr("font-weight", 50)
+        .attr("font-weight", 25)
         .attr("fill", "white")
-        .attr("y", (d) => d.y + d.radius * 25);
+        .attr("y", (d) => d.y + d.radius + 10 * 2);
       node
         .selectAll("circle")
         .attr("cx", (d) => d.x)
@@ -135,18 +167,17 @@ export default function D3test({ clusterData }) {
         .selectAll("circle")
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y)
-        .on("click", async (event, d) => {
-          const newData = await getData(d.clusterId, d.url);
-
-          if (newData.relatedClusters && newData.relatedClusters.length > 0) {
-            d3.select(svgRef.current).selectAll("*").remove();
-            setData((prevData) =>
-              prevData
-                .filter((cluster) => cluster.id !== d.clusterId)
-                .concat(newData)
-            );
-          }
+        .on("click", (event, d) => {
+          window.location.href = d.url;
         });
+
+      lynk.attr("transform", (d, i, nodes) => {
+        const parent = d3.select(nodes[i].parentNode).datum();
+        const angle = (i / parent.lynks.length) * Math.PI * 2;
+        const x = parent.x + Math.cos(angle) * (parent.radius * 5 + 20);
+        const y = parent.y + Math.sin(angle) * (parent.radius * 5 + 20);
+        return `translate(${x},${y})`;
+      });
 
       node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
     }
