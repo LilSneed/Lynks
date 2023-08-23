@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 export default function CreateCluster({
   userId,
@@ -15,6 +16,7 @@ export default function CreateCluster({
 }) {
   const [clusterUrl, setClusterUrl] = React.useState("");
   const [error, setError] = React.useState("");
+  const router = useRouter();
 
   const clusterData = {
     creatorId: userId,
@@ -44,6 +46,7 @@ export default function CreateCluster({
       body: JSON.stringify(clusterData),
     });
     setError("Cluster created successfully");
+    router.refresh();
   };
 
   return (

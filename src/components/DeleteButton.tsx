@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 
 export function DeleteButton({ id, authId }: { id: number; authId: string }) {
   const router = useRouter();
+
   const userData = {
     id: id,
     authId: authId,
@@ -25,7 +26,11 @@ export function DeleteButton({ id, authId }: { id: number; authId: string }) {
       method: "DELETE",
       body: JSON.stringify(userData),
     });
+    router.prefetch("/dashboard");
+
+    router.push("/dashboard");
   };
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

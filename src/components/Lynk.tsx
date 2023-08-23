@@ -34,10 +34,10 @@ export default function Lynk({
       <a href={`https://${url}`} key={id} target="_blank">
         <div
           style={{ backgroundColor: color }}
-          className="flex flex-row rounded-full"
+          className="flex flex-row rounded-full py-2"
         >
           <div className="p-4 flex">
-            <p className="grow text-3xl">{img}</p>
+            <p className="grow text-3xl self-center">{img}</p>
           </div>
           <h2 className="text-black text-center grow self-center scroll-m-20 text-2xl font-medium tracking-tight pr-16">
             {title}
