@@ -3,19 +3,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-export default function D3test({ clusterData }) {
+export default function D3test({ clusterData, parentData }) {
   // State to hold data
-  const [data, setData] = useState([clusterData]);
-  console.log(data);
+  const [data, setData] = useState([parentData]);
+  console.log(clusterData);
 
   // Fetches data from an API endpoint
-  const getData = async (id, url) => {
-    const request = await fetch(
-      `http://localhost:3000/api/getClusterData?id=${id}&url=${url}`
-    );
-    const data = await request.json();
-    return data;
-  };
 
   // Ref to the SVG element
   const svgRef = useRef();
@@ -53,7 +46,7 @@ export default function D3test({ clusterData }) {
     };
 
     // Initialize link preparation with the root clusterData
-    prepareLinks(clusterData);
+    prepareLinks(data[0]);
 
     // Generates link data from unique link IDs
     const links = Array.from(uniqueLinkIds).map((linkId) => {
@@ -180,10 +173,13 @@ export default function D3test({ clusterData }) {
         .selectAll("circle")
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y)
-        .on("click", (event, d) => {
+        .on(
+          "click", //(event, d) => {
           // Handle node click event by navigating to the specified URL
-          window.location.href = `http://localhost:3000/${d.url}`;
-        });
+          // window.location.href = `http://localhost:3000/${d.url}`;
+          console.log([parentData, clusterData])
+        );
+      //});
 
       // Update 'lynk' visual element positions
       lynk.attr("transform", (d, i, nodes) => {

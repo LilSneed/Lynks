@@ -27,3 +27,24 @@ interface dataObject {
   nodes: Node[];
   links: Link[];
 }
+
+interface ParentClusters {
+  belongsToClusters?: {
+    id: number;
+    creatorId: number;
+    authId: string;
+    image: string;
+    url: string;
+    title: string;
+    description: string;
+  }[];
+  relatedClusters?: {
+    id: number;
+    creatorId: number;
+    authId: string;
+    image: string;
+    url: string;
+    title: string;
+    description: string;
+  }[];
+}
