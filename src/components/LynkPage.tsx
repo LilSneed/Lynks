@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import Lynk from "./Lynk";
-import RelatedMenu from "./RelatedMenu";
-import cluster from "cluster";
-import ClusterLynk from "./ClusterLynk";
 import { Separator } from "../components/ui/separator";
+import MdTextArea from "./MdTextArea";
+import { currentUser } from "@clerk/nextjs";
+import { prisma } from "@/app/db";
 
-export default function LynkPage({
+export default async function LynkPage({
   lynks,
   clusterData,
   key,
@@ -17,40 +17,50 @@ export default function LynkPage({
   key: number;
   relatedClusters: Array<any>;
 }) {
-  console.log(relatedClusters, "related cluster");
-  return (
-    <div className="container flex flex-col mt-10 mb-20 px-28" key={key}>
-      <div className="flex justify-center flex-col">
-        <div className="self-start ">
-          <RelatedMenu relatedClusters={relatedClusters} />
-        </div>
+  const user = await currentUser();
 
-        <Image
-          src={clusterData[0].image}
-          alt="User Image"
-          width={200}
-          height={200}
-          className="rounded-full self-center"
-        />
+  const userClusters = await prisma.cluster.findMany({
+    where: {
+      authId: user?.id,
+    },
+  });
+  console.log(userClusters);
+  return (
+    <div className="container flex flex-row justify-between gap-2">
+      <div className="flex flex-col mt-10 mb-20 xl:pr-20 grow" key={key}>
+        <div className="flex justify-center flex-col">
+          <Image
+            src={clusterData[0].image}
+            alt="User Image"
+            width={40}
+            height={40}
+            className="rounded-full self-end"
+          />
+        </div>
+        <h2 className="self-center mt-2 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
+          {clusterData[0].title}
+        </h2>
+        <p className="text-xl text-muted-foreground text-center">
+          {clusterData[0].description}
+        </p>
+
+        <div className="flex gap-2">
+          {lynks.map((lynk) => (
+            <Lynk
+              id={lynk.id}
+              img={lynk.image}
+              url={lynk.url}
+              edit={false}
+              title={lynk.title}
+              color={lynk.color}
+            />
+          ))}
+        </div>
+        <Separator />
+        <div className="">
+          <MdTextArea content={clusterData[0].content} />
+        </div>
       </div>
-      <h2 className="self-center mt-2 scroll-m-20 pb-2 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
-        {clusterData[0].title}
-      </h2>
-      <p className="text-xl text-muted-foreground text-center">
-        {clusterData[0].description}
-      </p>
-      <Separator />
-      {lynks.map((lynk) => (
-        <Lynk
-          key={lynk.id}
-          id={lynk.id}
-          edit={false}
-          img={lynk.image}
-          url={lynk.url}
-          title={lynk.title}
-          color={lynk.color}
-        />
-      ))}
     </div>
   );
 }

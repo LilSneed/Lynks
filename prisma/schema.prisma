@@ -31,6 +31,7 @@ model Cluster {
   relatedClusters   Cluster[] @relation("RelatedClusters")
   belongsToClusters Cluster[] @relation("RelatedClusters")
   lynks             Lynk[]
+  content           String    @db.Text 
 
   @@index([creatorId])
 }

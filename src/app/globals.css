@@ -76,3 +76,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+.markdown > * {
+  all: revert;
+}
+
+table,
+tr,
+td,
+th {
+  border: 1px solid #555;
+}
+
+blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+}
+
+.left {
+  text-align: left;
+}

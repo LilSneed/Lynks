@@ -5,6 +5,7 @@ import Image from "next/image";
 import cluster from "cluster";
 import Lynk from "@/components/Lynk";
 import LynkPage from "@/components/LynkPage";
+import { currentUser } from "@clerk/nextjs";
 
 export default async function page({ params }: { params: { slug: string } }) {
   const clusterData = await prisma.cluster.findMany({
@@ -17,7 +18,8 @@ export default async function page({ params }: { params: { slug: string } }) {
     },
   });
 
-  console.log(clusterData[0], "clusterdata");
+  const user = await currentUser();
+
   return (
     <section>
       {clusterData.length > 0 && (

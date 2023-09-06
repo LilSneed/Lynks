@@ -25,6 +25,7 @@ export default function CreateCluster({
     url: clusterUrl,
     title: "My Cluster",
     description: "Cluster Description...",
+    content: "# Hello there",
   };
   const handleClusterUrlChange = (event: {
     target: { value: React.SetStateAction<string> };
