@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         await prisma.cluster.create({
           data: userData,
         });
-        console.log(user);
+        console.log(Date.now());
         return NextResponse.json("User created successfully");
       } catch (error) {
         console.error(error);
