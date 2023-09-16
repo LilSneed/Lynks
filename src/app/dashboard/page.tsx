@@ -38,7 +38,7 @@ export default async function page() {
   return (
     <section className="mt-20 flex flex-col justify-center text-center container">
       <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-        My Clusters
+        Edit Cluster
       </h2>
       <div className="flex flex-col md:flex-row justify-center">
         {userClusters?.map((cluster) => (

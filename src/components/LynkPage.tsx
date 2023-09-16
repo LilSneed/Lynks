@@ -5,6 +5,7 @@ import { Separator } from "../components/ui/separator";
 import MdTextArea from "./MdTextArea";
 import { currentUser } from "@clerk/nextjs";
 import { prisma } from "@/app/db";
+import Sidebar from "./Sidebar";
 
 export default async function LynkPage({
   lynks,
@@ -19,14 +20,8 @@ export default async function LynkPage({
 }) {
   const user = await currentUser();
 
-  const userClusters = await prisma.cluster.findMany({
-    where: {
-      authId: user?.id,
-    },
-  });
-  console.log(userClusters);
   return (
-    <div className="container flex flex-row justify-between gap-2">
+    <div className=" flex flex-row justify-between gap-2 grow px-20">
       <div className="flex flex-col mt-10 mb-20 xl:pr-20 grow" key={key}>
         <div className="flex justify-center flex-col">
           <Image

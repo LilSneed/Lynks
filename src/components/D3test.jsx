@@ -5,7 +5,7 @@ import * as d3 from "d3";
 
 export default function D3test({ clusterData, parentData }) {
   // State to hold data
-  const [data, setData] = useState([parentData]);
+  const [data, setData] = useState([clusterData]);
   console.log(clusterData);
 
   // Fetches data from an API endpoint
@@ -32,7 +32,7 @@ export default function D3test({ clusterData, parentData }) {
     // makes sure that no links are added of the same id to avoid duplicate rendering
     const uniqueLinkIds = new Set();
 
-    const visitedClusters = new Map();
+    const visitedClusters = new Set();
 
     // Recursively prepares links between clusters
     const prepareLinks = (cluster) => {
@@ -56,11 +56,10 @@ export default function D3test({ clusterData, parentData }) {
 
     // Recursively prepares nodes for visualization
     const prepareNodes = (cluster, groupId) => {
-      if (visitedClusters.has(cluster.title)) {
+      if (visitedClusters.has(cluster.id)) {
         return [];
       }
-
-      visitedClusters.set(cluster.title, true);
+      visitedClusters.add(cluster.id);
 
       const nodes = [
         {

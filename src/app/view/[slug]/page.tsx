@@ -65,7 +65,7 @@ export default async function page({ params }: { params: { slug: string } }) {
 
   return (
     <div className="m- flex justify-center">
-      <D3test clusterData={clusterData[0]} parentData={parentClusters} />
+      <D3test clusterData={clusterData[0]} />
     </div>
   );
 }

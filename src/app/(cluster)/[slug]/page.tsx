@@ -6,6 +6,7 @@ import cluster from "cluster";
 import Lynk from "@/components/Lynk";
 import LynkPage from "@/components/LynkPage";
 import { currentUser } from "@clerk/nextjs";
+import Sidebar from "@/components/Sidebar";
 
 export default async function page({ params }: { params: { slug: string } }) {
   const clusterData = await prisma.cluster.findMany({
@@ -20,8 +21,19 @@ export default async function page({ params }: { params: { slug: string } }) {
 
   const user = await currentUser();
 
+  const userClusters = await prisma.cluster.findMany({
+    where: {
+      authId: user?.id,
+    },
+  });
+
+  console.log(userClusters);
+
   return (
-    <section>
+    <section className="flex flex-row justify-between gap-5">
+      <div className="fixed">
+        <Sidebar nodeData={userClusters} />
+      </div>
       {clusterData.length > 0 && (
         <LynkPage
           lynks={clusterData[0].lynks}

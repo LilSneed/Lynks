@@ -16,25 +16,14 @@ export default function Cluster({
   title: string;
 }) {
   return (
-    <div
-      className="mt-5 rounded-full mx-5 flex-col flex-wrap sm:flex-row justify-center"
-      key={id}
-    >
-      <div className="flex justify-center items-center ">
-        <Link href={`/edit/${url}`}>
-          <Button variant="ghost" className="bg-secondary">
-            Edit
-          </Button>
-        </Link>
-      </div>
-      <Image
-        width={150}
-        height={150}
-        src={img}
-        alt="Cluster Picture"
-        className="rounded-full mx-auto"
-      />
-      <p className="self-center grow">{title}</p>
+    <div className="flex flex-row items-center justify-center p-5">
+      <Link
+        className="flex flex-row justify-center border border-white rounded-lg p-5 gap-5 hover:bg-teal-900 transition-colors duration-200"
+        key={id}
+        href={`/edit/${url}`}
+      >
+        <p className="self-center font-bold">{title}</p>
+      </Link>
     </div>
   );
 }
