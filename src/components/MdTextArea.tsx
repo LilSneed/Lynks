@@ -11,6 +11,7 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 export default function MdTextArea({ content }: { content: string }) {
   const [input, setInput] = useState(`${content}`);
   const [edit, setEdit] = useState(false);
+
   const handleShow = () => {
     setEdit(true);
   };

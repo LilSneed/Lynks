@@ -2,8 +2,8 @@
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import React, { useState } from "react";
-import { VscLayoutSidebarLeft } from "react-icons/vsc";
-import { VscTypeHierarchySub } from "react-icons/vsc";
+import { FiUser, FiShare2 } from "react-icons/fi";
+
 export default function Sidebar({ nodeData }: any) {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
@@ -11,7 +11,6 @@ export default function Sidebar({ nodeData }: any) {
       setOpen(false);
     } else {
       setOpen(true);
-      console.log(nodeData);
     }
   };
   return (
@@ -22,10 +21,10 @@ export default function Sidebar({ nodeData }: any) {
     >
       <div className="border-r border-white px-3 py-10 flex justify-start flex-col gap-5 text-xl font-extrabold">
         <button onClick={handleClick} className="">
-          <VscLayoutSidebarLeft />
+          <FiUser />
         </button>
         <button>
-          <VscTypeHierarchySub />
+          <FiShare2 />
         </button>
       </div>
       <div

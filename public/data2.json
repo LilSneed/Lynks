@@ -1,0 +1,16 @@
+{
+  "nodes": [
+    {
+      "id": "hello world"
+    },
+    {
+      "id": "hello sirs"
+    }
+  ],
+  "links": [
+    {
+      "source": "hello world",
+      "target": "hello sirs"
+    }
+  ]
+}

@@ -25,7 +25,7 @@ export default async function page() {
         clusters: true,
       },
     });
-  console.log(checkDbId);
+
   if (checkDbId === null) {
     await fetch("http://localhost:3000/api/createUser", {
       method: "POST",
