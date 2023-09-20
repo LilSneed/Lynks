@@ -5,7 +5,7 @@ import * as d3 from "d3";
 import testData from "../../public/data.json";
 import { zoom } from "d3-zoom";
 export default function D3test({ clusterData }) {
-  const data = clusterData;
+  const data = testData;
 
   const svgRef = useRef();
   const width = 928;
@@ -14,8 +14,8 @@ export default function D3test({ clusterData }) {
   useEffect(() => {
     const svg = d3
       .select(svgRef.current)
-      .attr("width", width + 300)
-      .attr("height", height + 300)
+      .attr("width", width + 1300)
+      .attr("height", height + 1300)
       .attr("viewBox", [0, 0, width, height])
       .call(d3.zoom())
       .attr("style", "max-width: 100%; height: auto;");
@@ -33,8 +33,8 @@ export default function D3test({ clusterData }) {
         "link",
         d3.forceLink(links).id((d) => d.id)
       )
-      .force("charge", d3.forceManyBody())
-      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("charge", d3.forceManyBody().strength(-1000))
+      .force("center", d3.forceCenter(width / 4, height / 4))
       .on("tick", ticked)
       .force("x", d3.forceX())
       .force("y", d3.forceY());
@@ -47,6 +47,9 @@ export default function D3test({ clusterData }) {
       .data(links)
       .join("line")
       .attr("stroke-width", (d) => Math.sqrt(d.value));
+
+    const zoomBehavior = d3.zoom().scaleExtent([0.1, 10]).on("zoom", zoomed);
+    svg.call(zoomBehavior);
 
     const node = svg
       .append("g")
@@ -101,6 +104,11 @@ export default function D3test({ clusterData }) {
       event.subject.fy = event.subject.y;
     }
 
+    function zoomed(event) {
+      const { transform } = event;
+      link.attr("transform", transform);
+      node.attr("transform", transform);
+    }
     function dragged(event) {
       event.subject.fx = event.x;
       event.subject.fy = event.y;

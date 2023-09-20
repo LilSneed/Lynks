@@ -34,16 +34,16 @@ export default async function page() {
   }
 
   const userClusters = checkDbId?.clusters;
-
+  console.log(userAuthId);
   return (
     <section className="mt-20 flex flex-col justify-center text-center container">
       <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
         Edit Cluster
       </h2>
-      <div className="flex flex-col md:flex-row justify-center">
+      <div className="flex md:flex-row justify-center flex-wrap">
         {userClusters?.map((cluster) => (
           <div
-            className="flex md:flex-row flex-col items-center justify-center"
+            className="flex items-center justify-center flex-wrap"
             key={cluster.id}
           >
             <Cluster
@@ -52,6 +52,7 @@ export default async function page() {
               url={cluster.url}
               key={cluster.id}
               title={cluster.title}
+              authId={userAuthId || "blank"}
             />
           </div>
         ))}
