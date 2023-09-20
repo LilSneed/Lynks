@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import testData from "../../public/data.json";
+import testData from "../../public/data2.json";
 import { zoom } from "d3-zoom";
 export default function D3test({ clusterData }) {
   const data = testData;
@@ -34,7 +34,7 @@ export default function D3test({ clusterData }) {
         d3.forceLink(links).id((d) => d.id)
       )
       .force("charge", d3.forceManyBody().strength(-1000))
-      .force("center", d3.forceCenter(width / 4, height / 4))
+      .force("center", d3.forceCenter(width / 2, height / 2))
       .on("tick", ticked)
       .force("x", d3.forceX())
       .force("y", d3.forceY());
@@ -57,9 +57,21 @@ export default function D3test({ clusterData }) {
       .attr("stroke-width", 1.5)
       .selectAll("circle")
       .data(nodes)
-      .join("circle")
-      .attr("r", 5)
-      .attr("fill", (d) => color(d.group));
+      .join("g");
+
+    node.append("circle").attr("r", 5).attr("fill", "#eae0c8");
+
+    node
+      .append("text")
+      .text((d) => d.id)
+      .attr("x", 6)
+      .attr("y", 3)
+      .style("font-size", "10px") // Adjust the font size
+      .style("font-weight", "bold") // Adjust the font weight
+      .style("fill", "#333") // Change the text color
+      .style("text-anchor", "middle") // Center the text
+      .style("stroke", "none")
+      .style("visibility", "hidden"); // Hide the text initially
 
     node.append("title").text((d) => d.id);
 
@@ -80,10 +92,8 @@ export default function D3test({ clusterData }) {
       node
         .selectAll("text")
         .attr("x", (d) => d.x)
-        .attr("font-size", (d) => d.radius * 15 + "px")
-        .attr("font-weight", 50)
-        .attr("fill", "white")
-        .attr("y", (d) => d.y + d.radius * 25);
+        .attr("y", (d) => d.y + 20);
+
       node
         .selectAll("circle")
         .attr("cx", (d) => d.x)
@@ -108,6 +118,11 @@ export default function D3test({ clusterData }) {
       const { transform } = event;
       link.attr("transform", transform);
       node.attr("transform", transform);
+      node
+        .selectAll("text")
+        .style("visibility", transform.k > 1.5 ? "visible" : "hidden"); // Change '2' to your desired zoom level
+
+      // .style("visibility", transform.k > 2 ? "visible" : "hidden");
     }
     function dragged(event) {
       event.subject.fx = event.x;
@@ -126,5 +141,5 @@ export default function D3test({ clusterData }) {
     };
   }); // Empty dependency array ensures the effect runs only once after initial render
 
-  return <svg ref={svgRef} className=""></svg>;
+  return <svg ref={svgRef} className="bg-white"></svg>;
 }

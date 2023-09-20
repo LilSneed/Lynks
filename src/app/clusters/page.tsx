@@ -21,6 +21,7 @@ export default async function page() {
   });
   const userClusters = userData[0].clusters;
 
+  console.log(userData);
   const clusterNodes = userClusters.map((cluster) => ({
     id: cluster.title,
     url: cluster.url,
@@ -42,8 +43,10 @@ export default async function page() {
   console.log("nodes", clusterNodes);
   console.log(graphData);
   return (
-    <div className="">
-      <D3test clusterData={graphData} />
+    <div className="container">
+      <div className="bg-zinc-800 m-10 rounded-xl">
+        <D3test clusterData={graphData} />
+      </div>
     </div>
   );
 }
