@@ -22,7 +22,7 @@ export default async function LynkPage({
 
   return (
     <div className=" flex flex-row justify-between gap-2 grow px-20">
-      <div className="flex flex-col mt-10 mb-20 xl:pr-20 grow" key={key}>
+      <div className="flex flex-col mt-10 mb-20 pr-15 grow" key={key}>
         <div className="flex justify-center flex-col">
           <Image
             src={clusterData[0].image}

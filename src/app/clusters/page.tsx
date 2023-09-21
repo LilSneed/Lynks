@@ -43,8 +43,8 @@ export default async function page() {
   console.log("nodes", clusterNodes);
   console.log(graphData);
   return (
-    <div className="container">
-      <div className="bg-zinc-800 m-10 rounded-xl">
+    <div className="container min-h-[100vh]">
+      <div className="bg-zinc-800 m-10 rounded-xl flex justify-center min-h-[100vh]">
         <D3test clusterData={graphData} />
       </div>
     </div>

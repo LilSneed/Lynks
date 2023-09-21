@@ -29,13 +29,6 @@ export default function Navbar() {
             <Button asChild variant="link" className="sm:inline-block hidden">
               <Link href="/examples">Examples</Link>
             </Button>
-            <Button
-              asChild
-              variant="link"
-              className="sm:inline-block hidden text-xl text-yellow-400"
-            >
-              <Link href="/danger">⚠️issues / bugs⚠️</Link>
-            </Button>
           </nav>
         </div>
         <div className="flex flex-row justify-between gap-5 items-center">

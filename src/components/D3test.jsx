@@ -2,10 +2,10 @@
 
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import testData from "../../public/data2.json";
+import testData from "../../public/data.json";
 import { zoom } from "d3-zoom";
 export default function D3test({ clusterData }) {
-  const data = testData;
+  const data = clusterData;
 
   const svgRef = useRef();
   const width = 928;
@@ -141,5 +141,5 @@ export default function D3test({ clusterData }) {
     };
   }); // Empty dependency array ensures the effect runs only once after initial render
 
-  return <svg ref={svgRef} className="bg-white"></svg>;
+  return <svg ref={svgRef} className=""></svg>;
 }
