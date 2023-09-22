@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import testData from "../../public/data.json";
+import testData from "../../public/data2.json";
 import { zoom } from "d3-zoom";
 export default function D3test({ clusterData }) {
   const data = clusterData;
@@ -51,15 +51,12 @@ export default function D3test({ clusterData }) {
     const zoomBehavior = d3.zoom().scaleExtent([0.1, 10]).on("zoom", zoomed);
     svg.call(zoomBehavior);
 
-    const node = svg
-      .append("g")
-      .attr("stroke", "#fff")
-      .attr("stroke-width", 1.5)
-      .selectAll("circle")
-      .data(nodes)
-      .join("g");
+    const node = svg.append("g").selectAll("circle").data(nodes).join("g");
 
-    node.append("circle").attr("r", 5).attr("fill", "#eae0c8");
+    node
+      .append("circle")
+      .attr("r", 5)
+      .attr("fill", (d) => color(d.creatorId));
 
     node
       .append("text")

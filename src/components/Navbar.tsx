@@ -21,7 +21,7 @@ export default function Navbar() {
           </Link>
           <nav className="flex items-center text-sm font-medium">
             <Button asChild variant="link" className="sm:inline-block hidden">
-              <Link href="/dashboard">My Clusters</Link>
+              <Link href="/clusters">My Clusters</Link>
             </Button>
             <Button asChild variant="link" className="sm:inline-block hidden">
               <Link href="/about">About</Link>

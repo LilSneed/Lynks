@@ -21,12 +21,23 @@ export default async function page() {
   });
   const userClusters = userData[0].clusters;
 
-  console.log(userData);
   const clusterNodes = userClusters.map((cluster) => ({
     id: cluster.title,
     url: cluster.url,
     clusterId: cluster.id,
+    creatorId: cluster.creatorId,
   }));
+
+  const relatedClusters = userClusters
+    .map((cluster) => cluster.relatedClusters)
+    .flat()
+    .map((cluster) => ({
+      id: cluster.title,
+      url: cluster.url,
+      clusterId: cluster.id,
+      creatorId: cluster.creatorId,
+    }))
+    .filter((cluster) => cluster.creatorId !== userData[0].id); // this returns all the related clusters of each cluster but only if  they don't belong to the current user to avoid double renders in the svg
 
   const clusterLinks = userClusters.flatMap((cluster) =>
     cluster.relatedClusters.map((relatedCluster) => ({
@@ -35,13 +46,14 @@ export default async function page() {
     }))
   );
 
+  const allClusters = [...relatedClusters, ...clusterNodes];
+
+  console.log(allClusters);
   const graphData = {
-    nodes: clusterNodes,
+    nodes: allClusters,
     links: clusterLinks,
   };
-  console.log("links", clusterLinks);
-  console.log("nodes", clusterNodes);
-  console.log(graphData);
+
   return (
     <div className="container min-h-[100vh]">
       <div className="bg-zinc-800 m-10 rounded-xl flex justify-center min-h-[100vh]">
