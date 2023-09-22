@@ -27,12 +27,24 @@ export default async function page({ params }: { params: { slug: string } }) {
     },
   });
 
-  console.log(userClusters);
+  const currentCluster = await prisma.cluster.findFirst({
+    where: {
+      url: params.slug,
+    },
+    include: {
+      relatedClusters: true,
+    },
+  });
+
+  console.log(currentCluster?.relatedClusters);
 
   return (
     <section className="flex flex-row justify-between gap-5">
       <div className="fixed">
-        <Sidebar nodeData={userClusters} />
+        <Sidebar
+          nodeData={userClusters}
+          relatedData={currentCluster?.relatedClusters}
+        />
       </div>
       {clusterData.length > 0 && (
         <LynkPage
