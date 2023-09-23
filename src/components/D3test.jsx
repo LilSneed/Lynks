@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import testData from "../../public/data2.json";
+import testData from "../../public/data.json";
 import { zoom } from "d3-zoom";
 export default function D3test({ clusterData }) {
   const data = clusterData;
@@ -25,15 +25,13 @@ export default function D3test({ clusterData }) {
     const links = data.links.map((d) => ({ ...d }));
     const nodes = data.nodes.map((d) => ({ ...d }));
 
-    console.log(data);
-
     const simulation = d3
       .forceSimulation(nodes)
       .force(
         "link",
         d3.forceLink(links).id((d) => d.id)
       )
-      .force("charge", d3.forceManyBody().strength(-1000))
+      .force("charge", d3.forceManyBody().strength(-500))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .on("tick", ticked)
       .force("x", d3.forceX())
@@ -56,7 +54,60 @@ export default function D3test({ clusterData }) {
     node
       .append("circle")
       .attr("r", 5)
-      .attr("fill", (d) => color(d.creatorId));
+      .attr("fill", (d) => color(d.creatorId))
+      .style("cursor", "pointer")
+      .on("mouseover", function (event, d) {
+        node
+          .transition()
+          .duration(300)
+          .style("opacity", (o) => {
+            return o === d ? 1 : 0.1;
+          });
+        link
+          .transition()
+          .duration(300)
+          .style("stroke", function (l) {
+            return l.source === d || l.target === d ? "red" : "#999"; // Change color of links connected to the node being hovered
+          });
+        link
+          .transition()
+          .duration(300)
+          .style("opacity", function (l) {
+            return l.source === d || l.target === d ? 1 : 0.1; // Keep links connected to the node being hovered fully visible
+          });
+        d3.select(this)
+          .transition()
+          .duration(300)
+          .style("fill", "darkcyan")
+
+          .style("opacity", 1);
+
+        d3.select(this.parentNode)
+          .transition()
+          .duration(300)
+          .select("text")
+          .style("fill", "white")
+          .attr("y", (d) => d.y + 30);
+      })
+      .on("mouseout", function (event, d) {
+        node.transition().duration(300).style("opacity", 1);
+        link
+          .transition()
+          .duration(300)
+          .style("stroke", "#999")
+          .style("opacity", 1);
+        d3.select(this)
+          .transition()
+          .duration(300)
+          .style("fill", (d) => color(d.creatorId));
+
+        d3.select(this.parentNode)
+          .transition()
+          .duration(300)
+          .select("text")
+          .style("fill", "#333")
+          .attr("y", (d) => d.y + 20);
+      });
 
     node
       .append("text")
@@ -64,7 +115,7 @@ export default function D3test({ clusterData }) {
       .attr("x", 6)
       .attr("y", 3)
       .style("font-size", "10px") // Adjust the font size
-      .style("font-weight", "bold") // Adjust the font weight
+      .style("font-weight", "400") // Adjust the font weight
       .style("fill", "#333") // Change the text color
       .style("text-anchor", "middle") // Center the text
       .style("stroke", "none")
@@ -117,9 +168,7 @@ export default function D3test({ clusterData }) {
       node.attr("transform", transform);
       node
         .selectAll("text")
-        .style("visibility", transform.k > 1.5 ? "visible" : "hidden"); // Change '2' to your desired zoom level
-
-      // .style("visibility", transform.k > 2 ? "visible" : "hidden");
+        .style("visibility", transform.k > 1 ? "visible" : "hidden");
     }
     function dragged(event) {
       event.subject.fx = event.x;
@@ -133,10 +182,9 @@ export default function D3test({ clusterData }) {
     }
 
     return () => {
-      // Cleanup code (optional) - This will be executed when the component unmounts.
       simulation.stop();
     };
-  }); // Empty dependency array ensures the effect runs only once after initial render
+  });
 
   return <svg ref={svgRef} className=""></svg>;
 }
