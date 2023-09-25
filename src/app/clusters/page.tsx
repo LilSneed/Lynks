@@ -26,6 +26,7 @@ export default async function page() {
     url: cluster.url,
     clusterId: cluster.id,
     creatorId: cluster.creatorId,
+    color: "#F5F1F0",
   }));
 
   const relatedClusters = userClusters
@@ -36,6 +37,7 @@ export default async function page() {
       url: cluster.url,
       clusterId: cluster.id,
       creatorId: cluster.creatorId,
+      color: "#70E7A4",
     }))
     .filter((cluster) => cluster.creatorId !== userData[0].id); // this returns all the related clusters of each cluster but only if  they don't belong to the current user to avoid double renders in the svg
 

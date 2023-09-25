@@ -1,11 +1,21 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import testData from "../../public/data.json";
-import { zoom } from "d3-zoom";
+import { PopoverOptions } from "./Popover";
+
 export default function D3test({ clusterData }) {
   const data = clusterData;
+  const [showText, setShowText] = useState(true);
+  const [animations, setAnimations] = useState(true);
+  const [force, setForce] = useState(-1000);
+
+  const switches = [
+    { state: showText, setState: setShowText, text: "Toggle Text" },
+    { state: animations, setState: setAnimations, text: "Toggle Animations" },
+    // this array is for passing to the options menu as props for the state of the switch buttons
+  ];
 
   const svgRef = useRef();
   const width = 928;
@@ -19,6 +29,7 @@ export default function D3test({ clusterData }) {
       .attr("viewBox", [0, 0, width, height])
       .call(d3.zoom())
       .attr("style", "max-width: 100%; height: auto;");
+    svg.selectAll("*").remove();
 
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -31,7 +42,7 @@ export default function D3test({ clusterData }) {
         "link",
         d3.forceLink(links).id((d) => d.id)
       )
-      .force("charge", d3.forceManyBody().strength(-500))
+      .force("charge", d3.forceManyBody().strength(force))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .on("tick", ticked)
       .force("x", d3.forceX())
@@ -54,24 +65,24 @@ export default function D3test({ clusterData }) {
     node
       .append("circle")
       .attr("r", 5)
-      .attr("fill", (d) => color(d.creatorId))
+      .attr("fill", (d) => d.color)
       .style("cursor", "pointer")
       .on("mouseover", function (event, d) {
+        const connectedNodes = getConnectedNodes(d);
+
         node
           .transition()
           .duration(300)
           .style("opacity", (o) => {
-            return o === d ? 1 : 0.1;
+            return connectedNodes.includes(o) ? 1 : 0.1;
           });
+
         link
           .transition()
           .duration(300)
           .style("stroke", function (l) {
-            return l.source === d || l.target === d ? "red" : "#999"; // Change color of links connected to the node being hovered
-          });
-        link
-          .transition()
-          .duration(300)
+            return l.source === d || l.target === d ? "white" : "#999"; // Change color of links connected to the node being hovered
+          })
           .style("opacity", function (l) {
             return l.source === d || l.target === d ? 1 : 0.1; // Keep links connected to the node being hovered fully visible
           });
@@ -89,6 +100,7 @@ export default function D3test({ clusterData }) {
           .style("fill", "white")
           .attr("y", (d) => d.y + 30);
       })
+
       .on("mouseout", function (event, d) {
         node.transition().duration(300).style("opacity", 1);
         link
@@ -99,7 +111,7 @@ export default function D3test({ clusterData }) {
         d3.select(this)
           .transition()
           .duration(300)
-          .style("fill", (d) => color(d.creatorId));
+          .style("fill", (d) => d.color);
 
         d3.select(this.parentNode)
           .transition()
@@ -109,17 +121,20 @@ export default function D3test({ clusterData }) {
           .attr("y", (d) => d.y + 20);
       });
 
-    node
-      .append("text")
-      .text((d) => d.id)
-      .attr("x", 6)
-      .attr("y", 3)
-      .style("font-size", "10px") // Adjust the font size
-      .style("font-weight", "400") // Adjust the font weight
-      .style("fill", "#333") // Change the text color
-      .style("text-anchor", "middle") // Center the text
-      .style("stroke", "none")
-      .style("visibility", "hidden"); // Hide the text initially
+    if (showText) {
+      node
+        .append("text")
+        .text((d) => d.id)
+        .attr("x", 6)
+        .attr("y", 3)
+        .style("font-size", "5px")
+        .style("font-weight", "600")
+        .style("fill", "#333")
+        .style("text-anchor", "middle")
+        .style("stroke", "none");
+    } else {
+      node.selectAll("text").remove(); // remove text elements when showText is false
+    }
 
     node.append("title").text((d) => d.id);
 
@@ -156,11 +171,45 @@ export default function D3test({ clusterData }) {
       node.attr("cx", (d) => d.x).attr("cy", (d) => d.y);
     }
 
-    function dragstarted(event) {
+    function dragstarted(event, d) {
       if (!event.active) simulation.alphaTarget(0.3).restart();
-      event.subject.fx = event.subject.x;
-      event.subject.fy = event.subject.y;
+      d.fx = d.x;
+      d.fy = d.y;
+
+      // Highlight the hovered node and its connected nodes while dragging
+      const connectedNodes = getConnectedNodes(d);
+
+      if (animations) {
+        node
+          .transition()
+          .duration(300)
+          .style("opacity", (o) => {
+            return connectedNodes.includes(o) ? 1 : 0.1;
+          });
+
+        link
+          .transition()
+          .duration(300)
+          .style("stroke", function (l) {
+            return l.source === d || l.target === d ? "white" : "#999"; // Change color of links connected to the node being dragged
+          })
+          .style("opacity", function (l) {
+            return l.source === d || l.target === d ? 1 : 0.1; // Keep links connected to the node being dragged fully visible
+          });
+      }
     }
+
+    const getConnectedNodes = (node) => {
+      const connectedNodes = [node];
+      links.forEach((link) => {
+        if (link.source === node) {
+          connectedNodes.push(link.target);
+        } else if (link.target === node) {
+          connectedNodes.push(link.source);
+        }
+      });
+      return connectedNodes;
+    };
 
     function zoomed(event) {
       const { transform } = event;
@@ -170,21 +219,59 @@ export default function D3test({ clusterData }) {
         .selectAll("text")
         .style("visibility", transform.k > 1 ? "visible" : "hidden");
     }
-    function dragged(event) {
-      event.subject.fx = event.x;
-      event.subject.fy = event.y;
+    function dragged(event, d) {
+      d.fx = event.x;
+      d.fy = event.y;
+
+      const connectedNodes = getConnectedNodes(d);
+
+      if (animations) {
+        node
+          .transition()
+          .duration(300)
+          .style("opacity", (o) => {
+            return connectedNodes.includes(o) ? 1 : 0.1;
+          });
+
+        link
+          .transition()
+          .duration(300)
+          .style("stroke", function (l) {
+            return l.source === d || l.target === d ? "#ee82ee" : "#999";
+          })
+          .style("opacity", function (l) {
+            return l.source === d || l.target === d ? 1 : 0.1; // Keep links connected to the node being dragged fully visible
+          });
+      }
     }
 
-    function dragended(event) {
+    function dragended(event, d) {
       if (!event.active) simulation.alphaTarget(0);
-      event.subject.fx = null;
-      event.subject.fy = null;
+      d.fx = null;
+      d.fy = null;
+
+      // Restore all nodes and links to their original state
+      node.transition().duration(300).style("opacity", 1);
+      link
+        .transition()
+        .duration(300)
+        .style("stroke", "#999")
+        .style("opacity", 1);
     }
 
     return () => {
       simulation.stop();
     };
-  });
+  }, [showText, animations]);
 
-  return <svg ref={svgRef} className=""></svg>;
+  return (
+    <div className="flex flex-row">
+      <div className="">
+        <svg ref={svgRef} className="" />
+      </div>
+      <div className="fixed top-10 right-10" style={{ right: "10vw" }}>
+        <PopoverOptions switches={switches} />
+      </div>
+    </div>
+  );
 }

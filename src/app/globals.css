@@ -97,3 +97,7 @@ blockquote {
 .left {
   text-align: left;
 }
+
+#options {
+  right: 100;
+}
