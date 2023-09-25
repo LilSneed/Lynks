@@ -18,8 +18,21 @@ export default function D3test({ clusterData }) {
   ];
 
   const svgRef = useRef();
+  const svgContainerRef = useRef(); // Reference to the SVG container div
+
   const width = 928;
   const height = 600;
+
+  const updateSvgSize = () => {
+    const svgContainer = svgContainerRef.current;
+    const newWidth = svgContainer.offsetWidth;
+    const newHeight = svgContainer.offsetHeight;
+    // Update the SVG dimensions based on the container's size
+    const svg = d3.select(svgRef.current);
+    svg.attr("width", "100vw").attr("height", "100vh");
+
+    // You may need to adjust other parts of your code that rely on width and height
+  };
 
   useEffect(() => {
     const svg = d3
@@ -28,8 +41,10 @@ export default function D3test({ clusterData }) {
       .attr("height", height + 1300)
       .attr("viewBox", [0, 0, width, height])
       .call(d3.zoom())
-      .attr("style", "max-width: 100%; height: auto;");
+      .attr("style", "max-width: 100%; height: 100%;");
     svg.selectAll("*").remove();
+    updateSvgSize();
+    window.addEventListener("resize", updateSvgSize);
 
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -261,12 +276,13 @@ export default function D3test({ clusterData }) {
 
     return () => {
       simulation.stop();
+      window.removeEventListener("resize", updateSvgSize);
     };
   }, [showText, animations]);
 
   return (
     <div className="flex flex-row">
-      <div className="">
+      <div ref={svgContainerRef} className="">
         <svg ref={svgRef} className="" />
       </div>
       <div className="fixed top-10 right-10" style={{ right: "10vw" }}>

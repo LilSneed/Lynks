@@ -57,8 +57,8 @@ export default async function page() {
   };
 
   return (
-    <div className="container min-h-[100vh]">
-      <div className="bg-zinc-800 m-10 rounded-xl flex justify-center min-h-[100vh]">
+    <div className="">
+      <div className="bg-zinc-800 rounded-xl max-h-screen flex justify-center ">
         <D3test clusterData={graphData} />
       </div>
     </div>
