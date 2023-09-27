@@ -6,16 +6,18 @@ import testData from "../../public/data.json";
 import { PopoverOptions } from "./Popover";
 
 export default function D3test({ clusterData }) {
-  const data = clusterData;
+  const data = testData;
   const [showText, setShowText] = useState(true);
   const [animations, setAnimations] = useState(true);
-  const [force, setForce] = useState(-1000);
+  const [force, setForce] = useState(-2500);
 
   const switches = [
     { state: showText, setState: setShowText, text: "Toggle Text" },
     { state: animations, setState: setAnimations, text: "Toggle Animations" },
     // this array is for passing to the options menu as props for the state of the switch buttons
   ];
+
+  const forces = { state: force, setState: setForce };
 
   const svgRef = useRef();
   const svgContainerRef = useRef(); // Reference to the SVG container div
@@ -278,7 +280,7 @@ export default function D3test({ clusterData }) {
       simulation.stop();
       window.removeEventListener("resize", updateSvgSize);
     };
-  }, [showText, animations]);
+  }, [showText, animations, force]);
 
   return (
     <div className="flex flex-row">
@@ -286,7 +288,7 @@ export default function D3test({ clusterData }) {
         <svg ref={svgRef} className="" />
       </div>
       <div className="fixed top-10 right-10" style={{ right: "10vw" }}>
-        <PopoverOptions switches={switches} />
+        <PopoverOptions switches={switches} forces={forces} />
       </div>
     </div>
   );
