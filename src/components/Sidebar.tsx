@@ -2,12 +2,33 @@
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { FiUser, FiShare2 } from "react-icons/fi";
+import { FiPlus, FiUser, FiShare2 } from "react-icons/fi";
 
-export default function Sidebar({ nodeData, relatedData }: any) {
+export default function Sidebar({
+  nodeData,
+  relatedData,
+  currentUrl,
+  authId,
+  currentId,
+}: any) {
   const [openPersonal, setOpenPersonal] = useState(false);
   const [openRelated, setOpenRelated] = useState(false);
 
+  const linkClick = async (nodeUrl: string) => {
+    const data = {
+      authId: authId,
+      clusterId: currentId,
+      relatedClusterUrl: nodeUrl,
+      thisUrl: currentUrl,
+    };
+    await fetch("http://localhost:3000/api/connectCluster", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  };
+  const relatedIds = relatedData.map((node: any) => node.id);
+
+  console.log(relatedIds);
   const handleClick =
     (
       x: boolean,
@@ -39,7 +60,7 @@ export default function Sidebar({ nodeData, relatedData }: any) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  console.log();
   return (
     <div
       ref={sidebarRef}
@@ -70,10 +91,21 @@ export default function Sidebar({ nodeData, relatedData }: any) {
             <Separator />
           </div>
           {nodeData.map((node: any) => (
-            <div className="py-2 " key={node.id}>
-              <Link href={`/${node.url}`}>
-                <h1>{node.title}</h1>
-              </Link>
+            <div className="">
+              <div className="py-2 flex flex-row justify-between" key={node.id}>
+                <Link href={`/${node.url}`} className="flex flex-row">
+                  <h1>{node.title}</h1>
+                </Link>
+                {node.url !== currentUrl && !relatedIds.includes(node.id) && (
+                  <button
+                    className="hover:bg-emerald-300 hover:text-black transition-colors duration-200 rounded-full"
+                    onClick={() => linkClick(node.url)}
+                    key={node.id}
+                  >
+                    <FiPlus />
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>

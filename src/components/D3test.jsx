@@ -6,7 +6,7 @@ import testData from "../../public/data.json";
 import { PopoverOptions } from "./Popover";
 
 export default function D3test({ clusterData }) {
-  const data = testData;
+  const data = clusterData;
   const [showText, setShowText] = useState(true);
   const [animations, setAnimations] = useState(true);
   const [force, setForce] = useState(-2500);
@@ -20,8 +20,14 @@ export default function D3test({ clusterData }) {
   const forces = { state: force, setState: setForce };
 
   const svgRef = useRef();
-  const svgContainerRef = useRef(); // Reference to the SVG container div
-
+  const svgContainerRef = useRef(); // useRef for  the SVG container div
+  const simulationRef = useRef(null);
+  const updateForceStrength = (newForceStrength) => {
+    if (simulationRef.current) {
+      simulationRef.current.force("charge").strength(newForceStrength);
+      simulationRef.current.alpha(1).restart(); // Restart the simulation to apply the new force strength
+    }
+  };
   const width = 928;
   const height = 600;
 
@@ -254,7 +260,7 @@ export default function D3test({ clusterData }) {
           .transition()
           .duration(300)
           .style("stroke", function (l) {
-            return l.source === d || l.target === d ? "#ee82ee" : "#999";
+            return l.source === d || l.target === d ? "#FF6347" : "#999";
           })
           .style("opacity", function (l) {
             return l.source === d || l.target === d ? 1 : 0.1; // Keep links connected to the node being dragged fully visible
