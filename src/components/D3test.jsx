@@ -293,7 +293,7 @@ export default function D3test({ clusterData }) {
       <div ref={svgContainerRef} className="">
         <svg ref={svgRef} className="" />
       </div>
-      <div className="fixed top-10 right-10" style={{ right: "10vw" }}>
+      <div className="fixed top-10 right-10 mt-10" style={{ right: "10vw" }}>
         <PopoverOptions switches={switches} forces={forces} />
       </div>
     </div>

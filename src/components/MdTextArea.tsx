@@ -60,7 +60,7 @@ export default function MdTextArea({ content }: { content: string }) {
             Edit
           </Button>
           <ReactMarkdown
-            className="markdown full min-h-[45vh] leading-normal max-w-[90vw]"
+            className="markdown full min-h-[45vh] leading-normal max-w-[90vw] text-left"
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
             components={{

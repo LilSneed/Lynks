@@ -31,7 +31,7 @@ export default async function page({
   })) as ClusterData;
 
   const lynks = clusterData.lynks;
-
+  console.log(clusterData);
   if (clusterData.authId === userAuthId) {
     return (
       <section className="flex lg:flex-row flex-col mt-10 mb-20 sm:container gap-5 min-h-screen">
@@ -43,7 +43,12 @@ export default async function page({
             Cluster Preview
           </p>
           <Separator />
-          <PreviewLynkPage lynks={lynks} clusterData={clusterData} key={1} />
+          <PreviewLynkPage
+            lynks={lynks}
+            clusterData={clusterData}
+            key={1}
+            content={clusterData.content}
+          />
         </div>
         <div className="grow flex-1 order-first lg:order-none flex flex-col">
           <Link href={`/${clusterData.url}`} className="self-center">

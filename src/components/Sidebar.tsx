@@ -1,8 +1,9 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import { FiPlus, FiUser, FiShare2 } from "react-icons/fi";
+import { FiPlus, FiUser, FiShare2, FiEye, FiMinus } from "react-icons/fi";
 
 export default function Sidebar({
   nodeData,
@@ -25,10 +26,25 @@ export default function Sidebar({
       method: "POST",
       body: JSON.stringify(data),
     });
+    router.refresh();
+  };
+
+  const disconnectCluster = async (nodeUrl: string) => {
+    const data = {
+      authId: authId,
+      clusterId: currentId,
+      relatedClusterUrl: nodeUrl,
+      thisUrl: currentUrl,
+    };
+    await fetch("http://localhost:3000/api/disconnectCluster", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    router.refresh();
   };
   const relatedIds = relatedData.map((node: any) => node.id);
 
-  console.log(relatedIds);
+  const router = useRouter();
   const handleClick =
     (
       x: boolean,
@@ -93,7 +109,10 @@ export default function Sidebar({
           {nodeData.map((node: any) => (
             <div className="">
               <div className="py-2 flex flex-row justify-between" key={node.id}>
-                <Link href={`/${node.url}`} className="flex flex-row">
+                <Link
+                  href={`/${node.url}`}
+                  className="px-2 hover:border-b hover:border-white transition-all duration-200 border-background border-b"
+                >
                   <h1>{node.title}</h1>
                 </Link>
                 {node.url !== currentUrl && !relatedIds.includes(node.id) && (
@@ -103,6 +122,16 @@ export default function Sidebar({
                     key={node.id}
                   >
                     <FiPlus />
+                  </button>
+                )}
+                {node.url == currentUrl && <FiEye />}
+                {relatedIds.includes(node.id) && node.url !== currentUrl && (
+                  <button
+                    className="hover:bg-red-400 hover:text-black transition-colors duration-200 rounded-full"
+                    onClick={() => disconnectCluster(node.url)}
+                    key={node.id}
+                  >
+                    <FiMinus />
                   </button>
                 )}
               </div>
