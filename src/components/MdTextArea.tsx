@@ -8,7 +8,15 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-export default function MdTextArea({ content }: { content: string }) {
+export default function MdTextArea({
+  content,
+  user,
+  authId,
+}: {
+  content: string;
+  user: any;
+  authId: string;
+}) {
   const [input, setInput] = useState(`${content}`);
   const [edit, setEdit] = useState(false);
 
@@ -56,9 +64,11 @@ export default function MdTextArea({ content }: { content: string }) {
       )}
       {!edit && (
         <div className="flex flex-col">
-          <Button variant="ghost" onClick={handleShow} className="self-end">
-            Edit
-          </Button>
+          {authId == user && (
+            <Button variant="ghost" onClick={handleShow} className="self-end">
+              Edit
+            </Button>
+          )}
           <ReactMarkdown
             className="markdown full min-h-[45vh] leading-normal max-w-[90vw] text-left"
             remarkPlugins={[remarkGfm]}

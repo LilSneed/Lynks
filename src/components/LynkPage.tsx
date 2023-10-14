@@ -12,14 +12,15 @@ export default async function LynkPage({
   clusterData,
   key,
   relatedClusters,
+  currentUser,
 }: {
   lynks: Array<any>;
   clusterData: Array<any>;
   key: number;
   relatedClusters: Array<any>;
+  currentUser: any;
 }) {
-  const user = await currentUser();
-
+  console.log(currentUser);
   return (
     <div className=" flex flex-row justify-between gap-2 grow px-20">
       <div className="flex flex-col mt-10 mb-20 pr-15 grow" key={key}>
@@ -48,12 +49,17 @@ export default async function LynkPage({
               edit={false}
               title={lynk.title}
               color={lynk.color}
+              key={lynk.id}
             />
           ))}
         </div>
         <Separator />
         <div className="">
-          <MdTextArea content={clusterData[0].content} />
+          <MdTextArea
+            content={clusterData[0].content}
+            user={currentUser || "none"}
+            authId={clusterData[0].authId}
+          />
         </div>
       </div>
     </div>

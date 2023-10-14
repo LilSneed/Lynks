@@ -9,7 +9,7 @@ export default function D3test({ clusterData }) {
   const data = clusterData;
   const [showText, setShowText] = useState(true);
   const [animations, setAnimations] = useState(true);
-  const [force, setForce] = useState(-2500);
+  const [force, setForce] = useState(-100);
 
   const switches = [
     { state: showText, setState: setShowText, text: "Toggle Text" },

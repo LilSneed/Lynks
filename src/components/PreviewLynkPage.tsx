@@ -49,6 +49,7 @@ export default function PreviewLynkPage({
               edit={false}
               title={lynk.title}
               color={lynk.color}
+              key={lynk.id}
             />
           ))}
         </div>

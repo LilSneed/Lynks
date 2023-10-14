@@ -36,8 +36,6 @@ export default async function page({ params }: { params: { slug: string } }) {
     },
   });
 
-  console.log(user?.id);
-
   return (
     <section className="flex flex-row justify-between gap-5">
       <div className="fixed">
@@ -46,7 +44,8 @@ export default async function page({ params }: { params: { slug: string } }) {
           relatedData={currentCluster?.relatedClusters}
           currentUrl={params.slug}
           authId={user?.id}
-          currentId={currentCluster?.id}
+          currentClusterId={currentCluster?.id}
+          ClusterAuthId={currentCluster?.authId}
         />
       </div>
       {clusterData.length > 0 && (
@@ -55,6 +54,7 @@ export default async function page({ params }: { params: { slug: string } }) {
           clusterData={clusterData}
           key={1}
           relatedClusters={clusterData[0].relatedClusters}
+          currentUser={user?.id}
         />
       )}
       {clusterData.length === 0 && (

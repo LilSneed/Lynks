@@ -10,7 +10,8 @@ export default function Sidebar({
   relatedData,
   currentUrl,
   authId,
-  currentId,
+  currentClusterId,
+  ClusterAuthId,
 }: any) {
   const [openPersonal, setOpenPersonal] = useState(false);
   const [openRelated, setOpenRelated] = useState(false);
@@ -18,7 +19,7 @@ export default function Sidebar({
   const linkClick = async (nodeUrl: string) => {
     const data = {
       authId: authId,
-      clusterId: currentId,
+      clusterId: currentClusterId,
       relatedClusterUrl: nodeUrl,
       thisUrl: currentUrl,
     };
@@ -28,11 +29,11 @@ export default function Sidebar({
     });
     router.refresh();
   };
-
+  console.log(authId, currentClusterId, ClusterAuthId);
   const disconnectCluster = async (nodeUrl: string) => {
     const data = {
       authId: authId,
-      clusterId: currentId,
+      clusterId: currentClusterId,
       relatedClusterUrl: nodeUrl,
       thisUrl: currentUrl,
     };
@@ -107,33 +108,37 @@ export default function Sidebar({
             <Separator />
           </div>
           {nodeData.map((node: any) => (
-            <div className="">
-              <div className="py-2 flex flex-row justify-between" key={node.id}>
+            <div className="" key={node.id}>
+              <div className="py-2 flex flex-row justify-between">
                 <Link
                   href={`/${node.url}`}
                   className="px-2 hover:border-b hover:border-white transition-all duration-200 border-background border-b"
                 >
                   <h1>{node.title}</h1>
                 </Link>
-                {node.url !== currentUrl && !relatedIds.includes(node.id) && (
-                  <button
-                    className="hover:bg-emerald-300 hover:text-black transition-colors duration-200 rounded-full"
-                    onClick={() => linkClick(node.url)}
-                    key={node.id}
-                  >
-                    <FiPlus />
-                  </button>
-                )}
+                {node.url !== currentUrl &&
+                  !relatedIds.includes(node.id) &&
+                  ClusterAuthId == authId && (
+                    <button
+                      className="hover:bg-emerald-300 hover:text-black transition-colors duration-200 rounded-full"
+                      onClick={() => linkClick(node.url)}
+                      key={node.id}
+                    >
+                      <FiPlus />
+                    </button>
+                  )}
                 {node.url == currentUrl && <FiEye />}
-                {relatedIds.includes(node.id) && node.url !== currentUrl && (
-                  <button
-                    className="hover:bg-red-400 hover:text-black transition-colors duration-200 rounded-full"
-                    onClick={() => disconnectCluster(node.url)}
-                    key={node.id}
-                  >
-                    <FiMinus />
-                  </button>
-                )}
+                {relatedIds.includes(node.id) &&
+                  node.url !== currentUrl &&
+                  ClusterAuthId == authId && (
+                    <button
+                      className="hover:bg-red-400 hover:text-black transition-colors duration-200 rounded-full"
+                      onClick={() => disconnectCluster(node.url)}
+                      key={node.id}
+                    >
+                      <FiMinus />
+                    </button>
+                  )}
               </div>
             </div>
           ))}

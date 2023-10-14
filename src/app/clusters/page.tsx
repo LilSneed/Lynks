@@ -3,6 +3,7 @@ import React from "react";
 import { prisma } from "../db";
 import D3test from "@/components/D3test";
 import { cluster } from "d3";
+import Sidebar from "@/components/Sidebar";
 
 export default async function page() {
   const user = await currentUser();
@@ -58,7 +59,7 @@ export default async function page() {
 
   return (
     <div className="">
-      <div className="bg-zinc-800 rounded-xl max-h-screen flex justify-center ">
+      <div className="bg-zinc-900 rounded-xl max-h-screen flex justify-center ">
         <D3test clusterData={graphData} />
       </div>
     </div>
